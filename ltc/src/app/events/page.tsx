@@ -1,9 +1,7 @@
-// import Image from "next/image";
-
-export default function Home() {
+export default function Page() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Let Them Create Homepage</h1>
+      <h1>Events List page</h1>
     </main>
   );
 }

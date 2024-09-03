@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 
-const hind = Hind_Siliguri({ weight: "500" });
+const hind = Hind_Siliguri({ weight: "500", subsets: ["bengali"] });
 
 export const metadata: Metadata = {
   title: "Let Them Create",
