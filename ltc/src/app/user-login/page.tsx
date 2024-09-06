@@ -3,9 +3,10 @@
 - add image for user log in (free img)
 - make image fit screen
 - create a form for user login 
+- add logo home button component
 */
 import Image from "next/image";
-import userLoginPic from "../../../public/pexels-sheinshine-3127880.jpg";
+import userLoginPic from "../../../public/userLogin.jpg";
 
 export default function Page() {
   return (
@@ -17,8 +18,8 @@ export default function Page() {
         />
       </div>
 
-      <h1 className="text-center">Log in</h1>
       <form className="flex flex-col justify-center mx-auto space-y-8">
+        <h1 className="text-center text-3xl text-blue py-6">Log in</h1>
         <input
           type="text"
           id="email-address"
@@ -33,7 +34,7 @@ export default function Page() {
         />
         <button
           type="submit"
-          className="py-4 px-10 max-w-sm mx-auto bg-orange-600 shadow-md rounded-xl text-white hover:bg-orange-400  hover:text-blue-600"
+          className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue"
         >
           Submit
         </button>
