@@ -9,6 +9,7 @@
 import Image from "next/image";
 import userLoginPic from "../../../public/userLogin.jpg";
 import HomeButtonLogo from "../components/HomeButtonLogo";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -27,7 +28,7 @@ export default function Page() {
         </div>
         <div className="col-auto">
           <form className="flex flex-col justify-center mx-auto space-y-8">
-            <h1 className="text-center text-3xl text-blue py-6">Log in</h1>
+            <h1 className="text-center text-3xl text-slate py-6">Log in</h1>
             <input
               type="text"
               id="email-address"
@@ -46,6 +47,9 @@ export default function Page() {
             >
               Submit
             </button>
+            <div className="mx-auto text-lg text-blue hover:text-slate">
+              <Link href="/user-signup">Sign Up</Link>
+            </div>
           </form>
         </div>
       </div>
