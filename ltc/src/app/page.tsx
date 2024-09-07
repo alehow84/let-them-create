@@ -1,9 +1,13 @@
 import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/Footer";
 export default function Home() {
   return (
-    <main className="">
+    <>
       <Navbar />
-      <h1>Let Them Create Homepage</h1>
-    </main>
+      <main className="">
+        <h1>Let Them Create Homepage</h1>
+      </main>
+      <Footer />
+    </>
   );
 }
