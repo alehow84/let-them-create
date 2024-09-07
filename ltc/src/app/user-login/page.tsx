@@ -7,7 +7,7 @@
 - add link to sign-up page
 */
 import Image from "next/image";
-import userLoginPic from "../../../public/userLogin.jpg";
+import userLoginPic from "../../../public/bg-images/userLogin.jpg";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 

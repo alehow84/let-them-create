@@ -13,10 +13,10 @@ export default function Footer() {
         <Image src={Insta} height={40} width={40} alt="instagram" />
       </Link>
       <Link
-        href="https://www.instagram.com/"
+        href="https://www.tiktok.com/en/"
         className="scale-100 hover:scale-125 mr-4"
       >
-        <Image src={TikTok} height={40} width={40} alt="instagram" />
+        <Image src={TikTok} height={40} width={40} alt="Tik Tok" />
       </Link>
       <Link
         href="/staff-login"

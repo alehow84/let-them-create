@@ -1,5 +1,5 @@
 import Image from "next/image";
-import staffLogin from "../../../public/staffLogin.jpg";
+import staffLogin from "../../../public/bg-images/staffLogin.jpg";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 

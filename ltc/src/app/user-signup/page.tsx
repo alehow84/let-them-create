@@ -2,7 +2,7 @@
 import Image from "next/image";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
-import userSignUpPic from "../../../public/userSignup.jpg";
+import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 
 export default function Page() {
   return (
