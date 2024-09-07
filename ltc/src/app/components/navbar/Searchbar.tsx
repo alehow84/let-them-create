@@ -39,6 +39,12 @@ export default function Searchbar() {
           placeholder="Choose location"
           className="pl-1 focus:outline-none "
         />
+        <button
+          type="submit"
+          className="bg-orange-light rounded-full p-2 hover:bg-slate hover:text-white"
+        >
+          search
+        </button>
       </div>
     </form>
   );
