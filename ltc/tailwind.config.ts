@@ -23,6 +23,9 @@ const config: Config = {
         "2xl": "1.75rem",
         "3xl": "2rem",
       },
+      fontFamily: {
+        custom: ["Aloja", "sans-serif"],
+      },
     },
   },
   plugins: [],
