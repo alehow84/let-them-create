@@ -1,6 +1,7 @@
 import HomeButtonLogo from "../HomeButtonLogo";
-import Searchbar from "../Searchbar";
+import Searchbar from "./Searchbar";
 import Link from "next/link";
+import UserLinks from "./UserLinks";
 
 export default function Navbar() {
   return (
@@ -13,6 +14,9 @@ export default function Navbar() {
       >
         Browse events
       </Link>
+      <div className="ml-auto mr-4">
+        <UserLinks />
+      </div>
     </nav>
   );
 }
