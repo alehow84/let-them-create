@@ -26,6 +26,7 @@ const config: Config = {
       fontFamily: {
         custom: ["Aloja", "sans-serif"],
       },
+      textDecorationStyle: ["wavy"],
     },
   },
   plugins: [],

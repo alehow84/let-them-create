@@ -25,6 +25,7 @@ export default function Home() {
                 alt="Let Them Create"
                 height={550}
                 width={550}
+                priority
               />
             </div>
             <div className="ml-16 hover:cursor-default">
@@ -38,8 +39,10 @@ export default function Home() {
       <div className="bg-gradient-to-r from-blue to-neutral h-screen">
         <div className="min-h-screen flex justify-center items-center">
           <section className="flex justify-center items-center">
-            <div className={Playpen.className}>
-              <Typing text="A bit about us." />
+            <div className="mr-20 hover:cursor-default">
+              <div className={Playpen.className}>
+                <Typing text="A bit about us." />
+              </div>
             </div>
             <div className="w-1/2">
               <AboutUs />
