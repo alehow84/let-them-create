@@ -1,10 +1,10 @@
 "use client";
 import { TypeAnimation } from "react-type-animation";
 
-export default function Typing() {
+export default function Typing({ text }: { text: string }) {
   return (
     <TypeAnimation
-      sequence={["Inspire, Create, Connect.", 500]}
+      sequence={[`${text}`, 500]}
       wrapper="span"
       speed={5}
       preRenderFirstString={false}
