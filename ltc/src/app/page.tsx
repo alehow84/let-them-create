@@ -40,7 +40,7 @@ export default function Home() {
         <div className="min-h-screen flex justify-center items-center">
           <section className="flex justify-center items-center">
             <div className="mr-20 hover:cursor-default">
-              <div className={Playpen.className}>
+              <div className={Playpen.className} style={{ width: "400px" }}>
                 <Typing text="A bit about us." />
               </div>
             </div>
