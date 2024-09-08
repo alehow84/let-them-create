@@ -4,8 +4,10 @@ import Logo from "../../../public/icons/HomeButtonLogo.svg";
 
 export default function HomeButtonLogo({ size }: { size: number }) {
   return (
-    <Link href="/" className="hover:scale-110">
-      <Image src={Logo} alt="Home" width={size} height={size} />
+    <Link href="/">
+      <div className="hover:scale-110">
+        <Image src={Logo} alt="Home" width={size} height={size} />
+      </div>
     </Link>
   );
 }
