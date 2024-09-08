@@ -4,26 +4,18 @@ import { TypeAnimation } from "react-type-animation";
 export default function Typing() {
   return (
     <TypeAnimation
-      sequence={[
-        "podcast enthusiast",
-        500,
-        "consumer of memes",
-        500,
-        "patron of puns",
-        500,
-        "mother of cats",
-      ]}
+      sequence={["Inspire, Create, Connect.", 500]}
       wrapper="span"
-      speed={10}
-      preRenderFirstString={true}
+      speed={5}
+      preRenderFirstString={false}
       style={{
-        fontSize: "3em",
+        fontSize: "3.5em",
         color: "#022136",
         lineHeight: "1.5em",
         display: "block",
-        fontWeight: "bold",
+        fontWeight: "medium",
       }}
-      repeat={2}
+      cursor={false}
     />
   );
 }
