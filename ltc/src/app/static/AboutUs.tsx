@@ -1,7 +1,7 @@
 export default function AboutUs() {
   return (
     <>
-      <div className="text-lg">
+      <div className="text-xl leading-10 ">
         <p className="m-6">
           We are a group of creatives and artists passionate about bringing new
           skills to our local community.

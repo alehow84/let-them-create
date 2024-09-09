@@ -4,7 +4,7 @@ import Image from "next/image";
 import Logo from "../../public/icons/Let them create Branding and planning.png";
 import Typing from "./components/Typing";
 import { Playpen_Sans } from "next/font/google";
-import AboutUs from "@/static/AboutUs";
+import AboutUs from "./static/AboutUs";
 
 const Playpen = Playpen_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -40,11 +40,11 @@ export default function Home() {
         <div className="min-h-screen flex justify-center items-center">
           <section className="flex justify-center items-center">
             <div className="mr-20 hover:cursor-default">
-              <div className={Playpen.className}>
+              <div className={Playpen.className} style={{ width: "400px" }}>
                 <Typing text="A bit about us." />
               </div>
             </div>
-            <div className="w-1/2">
+            <div className="ml-10 w-1/2">
               <AboutUs />
             </div>
           </section>
