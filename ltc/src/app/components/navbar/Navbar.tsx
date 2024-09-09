@@ -5,7 +5,7 @@ import UserLinks from "./UserLinks";
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center w-screen bg-slate-light">
+    <nav className="hidden md:flex items-center w-screen bg-slate-light">
       <HomeButtonLogo size={100} />
       <Searchbar />
       <Link

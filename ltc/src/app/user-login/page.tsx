@@ -1,10 +1,5 @@
 /*
 - add metadata 
-- add image for user log in (free img)
-- make image fit screen
-- create a form for user login 
-- add logo home button component
-- add link to sign-up page
 */
 import Image from "next/image";
 import userLoginPic from "../../../public/bg-images/userLogin.jpg";

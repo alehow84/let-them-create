@@ -1,56 +1,18 @@
 import Navbar from "./components/navbar/Navbar";
+import BurgerMenu from "./components/burgerMenu/BurgerMenu";
+import HomepageTop from "./components/homepage/HomepageTop";
+import HomepageBottom from "./components/homepage/HomepageBottom";
 import Footer from "./components/Footer";
-import Image from "next/image";
-import Logo from "../../public/icons/Let them create Branding and planning.png";
-import Typing from "./components/Typing";
-import { Playpen_Sans } from "next/font/google";
-import AboutUs from "./static/AboutUs";
+import { GlobalStateProvider } from "./contexts/GlobalStateContext";
 
-const Playpen = Playpen_Sans({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
-  style: "normal",
-  subsets: ["latin"],
-});
-
-export default function Home() {
+export default function App() {
   return (
-    <>
-      <div className="bg-gradient-to-r from-blue to-neutral h-screen">
-        <div className="min-h-screen flex flex-col ">
-          <Navbar />
-          <main className="flex flex-grow items-center mt-10">
-            <div className="ml-20">
-              <Image
-                src={Logo}
-                alt="Let Them Create"
-                height={550}
-                width={550}
-                priority
-              />
-            </div>
-            <div className="ml-16 hover:cursor-default">
-              <div className={Playpen.className}>
-                <Typing text="Inspire, Create, Connect." />
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-      <div className="bg-gradient-to-r from-blue to-neutral h-screen">
-        <div className="min-h-screen flex justify-center items-center">
-          <section className="flex justify-center items-center">
-            <div className="mr-20 hover:cursor-default">
-              <div className={Playpen.className} style={{ width: "400px" }}>
-                <Typing text="A bit about us." />
-              </div>
-            </div>
-            <div className="ml-10 w-1/2">
-              <AboutUs />
-            </div>
-          </section>
-        </div>
-        <Footer />
-      </div>
-    </>
+    <GlobalStateProvider>
+      <Navbar />
+      <BurgerMenu />
+      <HomepageTop />
+      <HomepageBottom />
+      <Footer />
+    </GlobalStateProvider>
   );
 }
