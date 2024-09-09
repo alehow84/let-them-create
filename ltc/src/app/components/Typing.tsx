@@ -4,7 +4,7 @@ import { TypeAnimation } from "react-type-animation";
 export default function Typing({ text }: { text: string }) {
   return (
     <TypeAnimation
-      sequence={[`${text}`, 500]}
+      sequence={[`${text}`, 500, `${text}`, 500]}
       wrapper="span"
       speed={5}
       preRenderFirstString={false}
