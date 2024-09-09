@@ -1,9 +1,18 @@
 //add metadata to this page
+import Navbar from "../components/navbar/Navbar";
+import BurgerMenu from "../components/burgerMenu/BurgerMenu";
+import Footer from "../components/Footer";
+import { GlobalStateProvider } from "../contexts/GlobalStateContext";
 
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Events List page</h1>
-    </main>
+    <>
+      <GlobalStateProvider>
+        <Navbar />
+        <BurgerMenu />
+        <main className="h-dvh"></main>
+        <Footer />
+      </GlobalStateProvider>
+    </>
   );
 }

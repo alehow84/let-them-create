@@ -15,6 +15,7 @@ const config: Config = {
       neutral: "#faf5e8",
       orange: "#ed5f1e",
       "orange-light": "#ff8210",
+      "orange-dark": "#cc4507",
       white: "#ffffff",
       slate: "#0f172a",
       "slate-light": "#054875",
