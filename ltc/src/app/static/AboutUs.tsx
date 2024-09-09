@@ -10,7 +10,7 @@ export default function AboutUs() {
           {" "}
           Our mission is to{" "}
           <span className="underline decoration-wavy">inspire</span> you by
-          hosting arts and craft events where you are able to{" "}
+          hosting arts and crafts events where you are able to{" "}
           <span className="underline decoration-wavy">create</span> in new
           mediums and <span className="underline decoration-wavy">connect</span>{" "}
           with others that share your interests.

@@ -26,7 +26,7 @@ export default function Footer() {
         <strong className="text-sm hover:cursor-default hidden md:block">
           2024 Let Them Create
         </strong>
-        <strong className="text-sm hover:cursor-default md:hidden">
+        <strong className="text-sm hover:cursor-default md:hidden ">
           2024 LTC
         </strong>
       </div>
