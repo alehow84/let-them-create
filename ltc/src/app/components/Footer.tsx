@@ -22,8 +22,13 @@ export default function Footer() {
         </Link>
       </div>
       <div className="flex text-white mx-auto">
-        <Image src={Copyright} height={20} width={20} alt="copyright" />
-        <strong className="hover:cursor-default">2024 Let Them Create</strong>
+        <Image src={Copyright} height={15} width={15} alt="copyright" />
+        <strong className="text-sm hover:cursor-default hidden md:block">
+          2024 Let Them Create
+        </strong>
+        <strong className="text-sm hover:cursor-default md:hidden">
+          2024 LTC
+        </strong>
       </div>
       <div>
         <Link href="/staff-login">

@@ -10,14 +10,14 @@ const Playpen = Playpen_Sans({
 
 export default function HomepageBottom() {
   return (
-    <div className="bg-gradient-to-r from-blue to-neutral h-screen flex justify-center items-center">
+    <div className="bg-gradient-to-r from-blue to-neutral h-dvh flex justify-center items-center">
       <section className="md:flex justify-center items-center">
-        <div className="mr-20 hover:cursor-default">
-          <div className={Playpen.className} style={{ width: "400px" }}>
+        <div className="ml-5 md:mr-20 hover:cursor-default">
+          <div className={Playpen.className} style={{ width: "350px" }}>
             <Typing text="A bit about us." />
           </div>
         </div>
-        <div className="ml-10 w-1/2">
+        <div className="m-6 md:ml-10 md:w-1/2">
           <AboutUs />
         </div>
       </section>

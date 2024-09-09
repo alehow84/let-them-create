@@ -1,12 +1,12 @@
 export default function AboutUs() {
   return (
     <>
-      <div className="text-xl leading-10 ">
-        <p className="m-6">
+      <div className="md:text-xl leading-10 ">
+        <p className="md:m-6">
           We are a group of creatives and artists passionate about bringing new
           skills to our local community.
         </p>
-        <p className="m-6">
+        <p className="md:m-6">
           {" "}
           Our mission is to{" "}
           <span className="underline decoration-wavy">inspire</span> you by
@@ -15,7 +15,7 @@ export default function AboutUs() {
           mediums and <span className="underline decoration-wavy">connect</span>{" "}
           with others that share your interests.
         </p>
-        <p className="m-6">
+        <p className="md:m-6">
           Whether you are an established artist or have never dabbled in making
           before, we are confident you will find an event to pique your creative
           interests!

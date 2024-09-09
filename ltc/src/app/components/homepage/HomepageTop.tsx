@@ -11,7 +11,7 @@ const Playpen = Playpen_Sans({
 
 export default function HomepageTop() {
   return (
-    <div className="bg-gradient-to-r from-blue to-neutral h-screen flex flex-col">
+    <div className="bg-gradient-to-r from-blue to-neutral h-dvh flex flex-col">
       <main className="md:flex items-center md:mt-10">
         <div className="md:ml-20">
           <Image
@@ -22,7 +22,7 @@ export default function HomepageTop() {
             priority
           />
         </div>
-        <div className="text-center md:ml-16 hover:cursor-default">
+        <div className="text-center items-end md:ml-16 hover:cursor-default">
           <div className={Playpen.className}>
             <Typing text="Inspire, Create, Connect." />
           </div>
