@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Page() {
   return (
     <div className="h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <Image src={staffLogin} alt="photo of a two artists working together" />
       </div>
       <div className="grid grid-cols-1 h-screen">

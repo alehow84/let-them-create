@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     colors: {
@@ -18,6 +19,11 @@ const config: Config = {
       slate: "#0f172a",
       "slate-light": "#054875",
     },
+    // screens: {
+    //   mobile: "640px",
+    //   ipad: "768px",
+    //   desktop: "1024px",
+    // },
     extend: {
       fontSize: {
         "2xl": "1.75rem",

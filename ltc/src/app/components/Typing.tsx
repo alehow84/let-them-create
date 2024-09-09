@@ -9,7 +9,7 @@ export default function Typing({ text }: { text: string }) {
       speed={5}
       preRenderFirstString={false}
       style={{
-        fontSize: "3.5em",
+        fontSize: "3em",
         color: "#022136",
         lineHeight: "1.5em",
         display: "block",
