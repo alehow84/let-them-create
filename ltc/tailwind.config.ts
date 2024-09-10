@@ -20,11 +20,6 @@ const config: Config = {
       slate: "#0f172a",
       "slate-light": "#054875",
     },
-    // screens: {
-    //   mobile: "640px",
-    //   ipad: "768px",
-    //   desktop: "1024px",
-    // },
     extend: {
       fontSize: {
         "2xl": "1.75rem",

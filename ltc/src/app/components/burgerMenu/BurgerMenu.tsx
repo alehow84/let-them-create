@@ -8,20 +8,15 @@ import { useGlobalState } from "@/app/contexts/GlobalStateContext";
 import { useEffect } from "react";
 
 export default function BurgerMenu() {
-  //need globally accessible states to track if menu is open, toggle menu and
   const { isMenuOpen, toggleMenu, exitMenu } = useGlobalState();
   useEffect(() => {
     if (isMenuOpen) {
-      //if menu is open, remove the scrolling feature
       document.body.classList.add("overflow-y-hidden");
     } else {
-      //if not, remove the class that takes away scroll ability
       document.body.classList.remove("overflow-y-hidden");
     }
-    //this triggers exitMenu function when
     window.addEventListener("resize", exitMenu);
 
-    //this is a clean-up function to remove this function when the burger menu is not rendered
     return () => {
       window.removeEventListener("resize", exitMenu);
     };

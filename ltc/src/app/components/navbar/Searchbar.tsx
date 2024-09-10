@@ -41,7 +41,7 @@ export default function Searchbar() {
         />
         <button
           type="submit"
-          className="bg-orange-light rounded-full p-2 hover:bg-slate hover:text-white"
+          className="bg-orange-light rounded-full p-2 hover:bg-slate hover:text-white transition ease-in-out duration-200"
         >
           search
         </button>

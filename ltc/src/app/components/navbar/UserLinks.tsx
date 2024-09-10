@@ -9,13 +9,13 @@ export default function UserLinks() {
     <>
       <Link
         href="/user-login"
-        className="text-white rounded-full hover:bg-sky hover:text-slate p-2 ml-4"
+        className="text-white rounded-full hover:bg-sky hover:text-slate p-2 ml-4 transition ease-in-out duration-200"
       >
         Login
       </Link>
       <Link
         href="/user-signup"
-        className="text-white rounded-full hover:bg-sky hover:text-slate p-2 ml-4"
+        className="text-white rounded-full hover:bg-sky hover:text-slate p-2 ml-4 transition ease-in-out duration-200"
       >
         Signup
       </Link>
