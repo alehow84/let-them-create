@@ -3,8 +3,28 @@ import Image from "next/image";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Page() {
+  /*
+-Create a password based account
+-
+
+*/
+
+  // const auth = getAuth();
+  // createUserWithEmailAndPassword(auth, email, password)
+  //   .then((userCredential) => {
+  //     // Signed up
+  //     const user = userCredential.user;
+  //     // ...
+  //   })
+  //   .catch((error) => {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     // ..
+  //   });
+
   return (
     <div className="h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
       <div className="hidden md:block">
@@ -28,12 +48,21 @@ export default function Page() {
               type="text"
               id="email-address"
               placeholder="Email address"
+              required
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             <input
-              type="text"
-              id="password"
+              type="password"
+              id="password1"
               placeholder="Password"
+              required
+              className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
+            />
+            <input
+              type="password"
+              id="password2"
+              placeholder="Re-type your Password"
+              required
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             <button
