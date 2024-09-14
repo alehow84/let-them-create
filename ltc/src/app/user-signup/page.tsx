@@ -23,22 +23,22 @@ export default function Page() {
 
   useEffect(() => {
     console.log("passwordErrorBool changed:", passwordErrorBool);
-    // app;
-    // const auth = getAuth();
-    // //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
-    // //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
+    app;
+    const auth = getAuth();
+    //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
+    //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
 
-    // createUserWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     // Signed up - what do i want to happen when user is signed up?
-    //     const user = userCredential.user;
-    //     // ...
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     // .. what do i want to happen when there is an error?
-    //   });
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up - what do i want to happen when user is signed up?
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // .. what do i want to happen when there is an error?
+      });
   }, [passwordErrorBool]);
 
   //store password and password retype to check they match
