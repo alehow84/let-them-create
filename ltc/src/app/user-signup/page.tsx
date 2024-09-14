@@ -7,8 +7,10 @@ import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { initialize } from "next/dist/server/lib/render-server";
-import { initializeApp } from "firebase/app";
+import { useRouter } from "next/router";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+// import { initialize } from "next/dist/server/lib/render-server";
+// import { initializeApp } from "firebase/app";
 import { app } from "../../../firebaseConfig";
 
 export default function Page() {
@@ -16,13 +18,13 @@ export default function Page() {
   const [password2, setPassword2] = useState<string>("");
   const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
+  // const router = useRouter();
 
   let password: string;
   let email: any;
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
   useEffect(() => {
-    console.log("passwordErrorBool changed:", passwordErrorBool);
     app;
     const auth = getAuth();
     //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
@@ -30,15 +32,45 @@ export default function Page() {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed up - what do i want to happen when user is signed up?
         const user = userCredential.user;
-        // ...
+        const db = getFirestore();
+        setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+        });
+        // fets user data if needed
+        //set profile created state to true
+        //redirect user to their profile
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // .. what do i want to happen when there is an error?
+        console.log(errorCode, ":", errorMessage);
+        // handle the error
       });
+    // const createUser = async () => {
+    //   try {
+    //     const auth = getAuth();
+    //     const userCredential = await createUserWithEmailAndPassword(
+    //       auth,
+    //       email,
+    //       password
+    //     );
+    //     const user = userCredential.user;
+    //     const db = getFirestore();
+    //     await setDoc(doc(db, "users", user.uid), {
+    //       email: user.email,
+    //       // Do not store passwords in plaintext
+    //     });
+    //     // Set profileCreated state to true
+    //     // Redirect user to their profile
+    //   } catch (error) {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     // Handle the error
+    //   }
+    // };
+
+    // createUser();
   }, [passwordErrorBool]);
 
   //store password and password retype to check they match
