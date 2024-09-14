@@ -1,14 +1,40 @@
+"use client";
+
 //add metadata to this page
 import Image from "next/image";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useState, useEffect } from "react";
 
 export default function Page() {
+  const [password1, setPassword1] = useState<string>("");
+  const [password2, setPassword2] = useState<string>("");
+  const [passwordMatchBool, setPasswordMatchBool] = useState<boolean>(false);
+
+  //store password and password retype to check they match
+  const handlePassword1Change = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPassword1(e.target.value);
+  const handlePassword2Change = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPassword2(e.target.value);
+
+  //check passwords match on submission of form
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (password1 === password2) {
+      //proceed with form submission
+      //-make a variable called password that password1 becomes
+      //-make a variable called email that email-address becomes
+    } else {
+      //if passwords do not match, show error message
+      // setPasswordMatchBool to false
+    }
+  };
+
   /*
 -Create a password based account
--
+- 
 
 */
 
@@ -56,6 +82,7 @@ export default function Page() {
               id="password1"
               placeholder="Password"
               required
+              onChange={handlePassword1Change}
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             <input
@@ -63,10 +90,19 @@ export default function Page() {
               id="password2"
               placeholder="Re-type your Password"
               required
+              onChange={handlePassword2Change}
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
+            {passwordMatchBool ? (
+              <div className="text-red-600 mx-auto">
+                Passwords don't match! Please try again...
+              </div>
+            ) : (
+              <></>
+            )}
             <button
               type="submit"
+              onSubmit={handleSubmit}
               className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"
             >
               Submit
