@@ -12,57 +12,53 @@ export default function Page() {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
+  const auth = getAuth();
+  let password: string;
+  let email: any;
 
   useEffect(() => {
     //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
     //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
     console.log("passwordErrorBool changed:", passwordErrorBool);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up - what do i want to happen when user is signed up?
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // .. what do i want to happen when there is an error?
+      });
   }, [passwordErrorBool]);
 
   //store password and password retype to check they match
   const handlePassword1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword1(e.target.value);
-    console.log(e.target.value, "<<password1");
   };
 
   const handlePassword2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword2(e.target.value);
-    console.log(e.target.value, "<<password2");
   };
 
   //check passwords match on submission of form
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const target = e.target as HTMLFormElement;
+
     if (password1 === password2) {
       //proceed with form submission
       //-make a variable called password that password1 becomes
       //-make a variable called email that email-address becomes
+      const emailValue = target.elements.namedItem("email-address");
+      password = password1;
+      email = emailValue;
     } else {
-      //if passwords do not match, show error message
-      // setPasswordMatchBool to false
       setPasswordErrorBool(true);
       console.log(passwordErrorBool);
     }
   };
-
-  /*
--Create a password based account
-- 
-
-*/
-
-  // const auth = getAuth();
-  // createUserWithEmailAndPassword(auth, email, password)
-  //   .then((userCredential) => {
-  //     // Signed up
-  //     const user = userCredential.user;
-  //     // ...
-  //   })
-  //   .catch((error) => {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     // ..
-  //   });
 
   return (
     <div className="h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
