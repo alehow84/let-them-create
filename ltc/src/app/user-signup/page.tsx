@@ -19,7 +19,7 @@ export default function Page() {
 
   let password: string;
   let email: any;
-  const regex = /[A-Za-z]/ && /[0-9]/ && /[^A-Za-z0-9]/;
+  const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
   useEffect(() => {
     console.log("passwordErrorBool changed:", passwordErrorBool);
@@ -55,11 +55,7 @@ export default function Page() {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
 
-    if (
-      password1 === password2 &&
-      password1.length > 10 &&
-      regex.test(password1)
-    ) {
+    if (password1 === password2 && regex.test(password1)) {
       //proceed with form submission
       //-make a variable called password that password1 becomes
       //-make a variable called email that email-address becomes
@@ -96,7 +92,7 @@ export default function Page() {
             <h1 className="text-center text-2xl md:text-3xl text-slate pt-10 md:py-6">
               Create an account
             </h1>
-            <div className="md:w-1/2 text-center mx-auto text-sm text-blue m-3">
+            <div className="md:w-1/2 text-center mx-auto text-xs text-blue m-3">
               Password criteria: must have a minimum length of 10 characters,
               contain at least 1 lowercase letter, uppercase letter, number and
               special character.
@@ -125,7 +121,7 @@ export default function Page() {
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             {passwordErrorBool ? (
-              <div className="text-center text-red-600 mx-auto border-0 md:w-1/2">
+              <div className="text-center text-xs text-red-600 mx-auto border-0 md:w-1/2">
                 Please check your password matches & meets minimum security
                 criteria
               </div>
