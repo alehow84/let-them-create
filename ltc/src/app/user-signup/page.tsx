@@ -11,16 +11,27 @@ import { useState, useEffect } from "react";
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
-  const [passwordMatchBool, setPasswordMatchBool] = useState<boolean>(false);
+  const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
+
+  useEffect(() => {
+    //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
+    //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
+    console.log("passwordErrorBool changed:", passwordErrorBool);
+  }, [passwordErrorBool]);
 
   //store password and password retype to check they match
-  const handlePassword1Change = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handlePassword1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword1(e.target.value);
-  const handlePassword2Change = (e: React.ChangeEvent<HTMLInputElement>) =>
+    console.log(e.target.value, "<<password1");
+  };
+
+  const handlePassword2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword2(e.target.value);
+    console.log(e.target.value, "<<password2");
+  };
 
   //check passwords match on submission of form
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password1 === password2) {
       //proceed with form submission
@@ -29,6 +40,8 @@ export default function Page() {
     } else {
       //if passwords do not match, show error message
       // setPasswordMatchBool to false
+      setPasswordErrorBool(true);
+      console.log(passwordErrorBool);
     }
   };
 
@@ -62,12 +75,15 @@ export default function Page() {
       <div className="grid grid-cols-1 h-screen">
         <div className="col-auto relative">
           <div className="absolute top-0 right-0 m-4">
-            <HomeButtonLogo size={150} />
+            <HomeButtonLogo size={100} />
           </div>
         </div>
         <div className="col-auto">
-          <form className="flex flex-col justify-center mx-auto space-y-8">
-            <h1 className="text-center text-3xl text-slate py-6">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-center mx-auto space-y-8"
+          >
+            <h1 className="text-center text-2xl md:text-3xl text-slate pt-10 md:py-6">
               Create an account
             </h1>
             <input
@@ -93,8 +109,8 @@ export default function Page() {
               onChange={handlePassword2Change}
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
-            {passwordMatchBool ? (
-              <div className="text-red-600 mx-auto">
+            {passwordErrorBool ? (
+              <div className="text-red-600 mx-auto border-0">
                 Passwords don't match! Please try again...
               </div>
             ) : (
@@ -102,7 +118,6 @@ export default function Page() {
             )}
             <button
               type="submit"
-              onSubmit={handleSubmit}
               className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"
             >
               Submit

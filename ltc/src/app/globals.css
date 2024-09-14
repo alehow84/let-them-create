@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap");
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 250, 245, 232;
@@ -31,5 +33,3 @@ body {
   font-weight: normal;
   font-style: normal;
 }
-
-@import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap");
