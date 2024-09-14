@@ -7,30 +7,38 @@ import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
+import { initialize } from "next/dist/server/lib/render-server";
+import { initializeApp } from "firebase/app";
+import { app } from "../../../firebaseConfig";
 
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
+  const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
-  const auth = getAuth();
+
   let password: string;
   let email: any;
+  const regex = /[A-Za-z]/ && /[0-9]/ && /[^A-Za-z0-9]/;
 
   useEffect(() => {
-    //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
-    //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
     console.log("passwordErrorBool changed:", passwordErrorBool);
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up - what do i want to happen when user is signed up?
-        const user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // .. what do i want to happen when there is an error?
-      });
+    // app;
+    // const auth = getAuth();
+    // //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
+    // //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
+
+    // createUserWithEmailAndPassword(auth, email, password)
+    //   .then((userCredential) => {
+    //     // Signed up - what do i want to happen when user is signed up?
+    //     const user = userCredential.user;
+    //     // ...
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     // .. what do i want to happen when there is an error?
+    //   });
   }, [passwordErrorBool]);
 
   //store password and password retype to check they match
@@ -47,10 +55,16 @@ export default function Page() {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
 
-    if (password1 === password2) {
+    if (
+      password1 === password2 &&
+      password1.length > 10 &&
+      regex.test(password1)
+    ) {
       //proceed with form submission
       //-make a variable called password that password1 becomes
       //-make a variable called email that email-address becomes
+      setPasswordErrorBool(false);
+      setUserCreated(true);
       const emailValue = target.elements.namedItem("email-address");
       password = password1;
       email = emailValue;
@@ -82,6 +96,11 @@ export default function Page() {
             <h1 className="text-center text-2xl md:text-3xl text-slate pt-10 md:py-6">
               Create an account
             </h1>
+            <div className="md:w-1/2 text-center mx-auto text-sm text-blue m-3">
+              Password criteria: must have a minimum length of 10 characters,
+              contain at least 1 lowercase letter, uppercase letter, number and
+              special character.
+            </div>
             <input
               type="text"
               id="email-address"
@@ -106,9 +125,15 @@ export default function Page() {
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             {passwordErrorBool ? (
-              <div className="text-red-600 mx-auto border-0">
-                Passwords don't match! Please try again...
+              <div className="text-center text-red-600 mx-auto border-0 md:w-1/2">
+                Please check your password matches & meets minimum security
+                criteria
               </div>
+            ) : (
+              <></>
+            )}
+            {userCreated ? (
+              <div className="text-green-800 mx-auto border-0">Success!</div>
             ) : (
               <></>
             )}
