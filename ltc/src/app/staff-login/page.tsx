@@ -12,7 +12,7 @@ export default function Page() {
       <div className="grid grid-cols-1 h-screen">
         <div className="col-auto relative">
           <div className="absolute top-0 right-0 m-4">
-            <HomeButtonLogo size={150} />
+            <HomeButtonLogo size={100} />
           </div>
         </div>
         <div className="col-auto">
