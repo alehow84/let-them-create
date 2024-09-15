@@ -3,19 +3,16 @@ import Navbar from "../components/navbar/Navbar";
 import BurgerMenu from "../components/burgerMenu/BurgerMenu";
 import Footer from "../components/Footer";
 import EventCard from "../components/EventCard";
-import { GlobalStateProvider } from "../contexts/GlobalStateContext";
 
 export default function Page() {
   return (
     <>
-      <GlobalStateProvider>
-        <Navbar />
-        <BurgerMenu />
-        <main className="h-dvh">
-          <EventCard />
-        </main>
-        <Footer />
-      </GlobalStateProvider>
+      <Navbar />
+      <BurgerMenu />
+      <main className="h-dvh">
+        <EventCard />
+      </main>
+      <Footer />
     </>
   );
 }

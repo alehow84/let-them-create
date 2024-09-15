@@ -45,30 +45,6 @@ export default function Page() {
         console.log(errorCode, ":", errorMessage);
         // handle the error
       });
-    // const createUser = async () => {
-    //   try {
-    //     const auth = getAuth();
-    //     const userCredential = await createUserWithEmailAndPassword(
-    //       auth,
-    //       email,
-    //       password
-    //     );
-    //     const user = userCredential.user;
-    //     const db = getFirestore();
-    //     await setDoc(doc(db, "users", user.uid), {
-    //       email: user.email,
-    //       // Do not store passwords in plaintext
-    //     });
-    //     // Set profileCreated state to true
-    //     // Redirect user to their profile
-    //   } catch (error) {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     // Handle the error
-    //   }
-    // };
-
-    // createUser();
   }, [passwordErrorBool]);
 
   //store password and password retype to check they match

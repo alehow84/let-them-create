@@ -1,6 +1,3 @@
-/*
-- add metadata 
-*/
 import Image from "next/image";
 import userLoginPic from "../../../public/bg-images/userLogin.jpg";
 import HomeButtonLogo from "../components/HomeButtonLogo";
