@@ -1,6 +1,5 @@
 "use client";
 
-//add metadata to this page
 import Image from "next/image";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
@@ -9,29 +8,19 @@ import { useState, useEffect } from "react";
 
 import { RegistrationType } from "../types/AuthTypes";
 import { useAuth } from "../contexts/AuthContext";
-
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
 import { useRouter } from "next/navigation";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-// import { initialize } from "next/dist/server/lib/render-server";
-// import { initializeApp } from "firebase/app";
 
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
-
   const [data, setData] = useState<RegistrationType>({
     email: "",
     password: "",
   });
   const { signUp } = useAuth();
   const router = useRouter();
-
-  // let password: string;
-  // let email: any;
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
   useEffect(() => {
@@ -71,12 +60,12 @@ export default function Page() {
 
   const handleRegistration = async (e: any) => {
     e.preventDefault();
+
     if (password1 === password2 && regex.test(password1)) {
       setPasswordErrorBool(false);
       setUserCreated(true);
       setData({
-        ...data,
-        email: e.target.elements.namedItem("email-address"),
+        email: e.target.elements.namedItem("email-address").value,
         password: password1,
       });
     } else {
@@ -86,36 +75,11 @@ export default function Page() {
       await signUp(data.email, data.password);
       router.push(`/user-profile/${data.email}`);
     } catch (error: any) {
+      //need to handle error message
       console.log(error.message);
     }
     console.log(data);
   };
-
-  //Destructure data from the data object
-  const { ...allData } = data;
-
-  // Disable submit button until all fields are filled in
-  // const canSubmit = [...Object.values(allData)].every(Boolean);
-
-  //check passwords match on submission of form
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const target = e.target as HTMLFormElement;
-
-  //   if (password1 === password2 && regex.test(password1)) {
-  //     //proceed with form submission
-  //     //-make a variable called password that password1 becomes
-  //     //-make a variable called email that email-address becomes
-  //     setPasswordErrorBool(false);
-  //     setUserCreated(true);
-  //     const emailValue = target.elements.namedItem("email-address");
-  //     password = password1;
-  //     email = emailValue;
-  //   } else {
-  //     setPasswordErrorBool(true);
-  //     console.log(passwordErrorBool);
-  //   }
-  // };
 
   return (
     <div className="h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
@@ -182,7 +146,6 @@ export default function Page() {
             )}
             <button
               type="submit"
-              // disabled={!canSubmit}
               className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"
             >
               Submit
