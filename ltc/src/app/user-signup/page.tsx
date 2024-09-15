@@ -5,9 +5,14 @@ import Image from "next/image";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+
+import { RegistrationType } from "../types/AuthTypes";
+import { useAuth } from "../contexts/AuthContext";
+
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+import { useRouter } from "next/navigation";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 // import { initialize } from "next/dist/server/lib/render-server";
 // import { initializeApp } from "firebase/app";
@@ -17,34 +22,42 @@ export default function Page() {
   const [password2, setPassword2] = useState<string>("");
   const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
-  // const router = useRouter();
 
-  let password: string;
-  let email: any;
+  const [data, setData] = useState<RegistrationType>({
+    email: "",
+    password: "",
+  });
+  const { signUp } = useAuth();
+  const router = useRouter();
+
+  // let password: string;
+  // let email: any;
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
   useEffect(() => {
-    const auth = getAuth();
+    // const auth = getAuth();
     //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
     //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        const db = getFirestore();
-        setDoc(doc(db, "users", user.uid), {
-          email: user.email,
-        });
-        // fets user data if needed
-        //set profile created state to true
-        //redirect user to their profile
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, ":", errorMessage);
-        // handle the error
-      });
+    console.log("Password");
+
+    // createUserWithEmailAndPassword(auth, email, password)
+    //   .then((userCredential) => {
+    //     const user = userCredential.user;
+    //     const db = getFirestore();
+    //     setDoc(doc(db, "users", user.uid), {
+    //       email: user.email,
+    //     });
+    //     // fets user data if needed
+    //     //set profile created state to true
+    //     //redirect user to their profile
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     console.log(errorCode, ":", errorMessage);
+    //     // handle the error
+    //   });
   }, [passwordErrorBool]);
 
   //store password and password retype to check they match
@@ -56,25 +69,53 @@ export default function Page() {
     setPassword2(e.target.value);
   };
 
-  //check passwords match on submission of form
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegistration = async (e: any) => {
     e.preventDefault();
-    const target = e.target as HTMLFormElement;
-
     if (password1 === password2 && regex.test(password1)) {
-      //proceed with form submission
-      //-make a variable called password that password1 becomes
-      //-make a variable called email that email-address becomes
       setPasswordErrorBool(false);
       setUserCreated(true);
-      const emailValue = target.elements.namedItem("email-address");
-      password = password1;
-      email = emailValue;
+      setData({
+        ...data,
+        email: e.target.elements.namedItem("email-address"),
+        password: password1,
+      });
     } else {
       setPasswordErrorBool(true);
-      console.log(passwordErrorBool);
     }
+    try {
+      await signUp(data.email, data.password);
+      router.push(`/user-profile/${data.email}`);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+    console.log(data);
   };
+
+  //Destructure data from the data object
+  const { ...allData } = data;
+
+  // Disable submit button until all fields are filled in
+  // const canSubmit = [...Object.values(allData)].every(Boolean);
+
+  //check passwords match on submission of form
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const target = e.target as HTMLFormElement;
+
+  //   if (password1 === password2 && regex.test(password1)) {
+  //     //proceed with form submission
+  //     //-make a variable called password that password1 becomes
+  //     //-make a variable called email that email-address becomes
+  //     setPasswordErrorBool(false);
+  //     setUserCreated(true);
+  //     const emailValue = target.elements.namedItem("email-address");
+  //     password = password1;
+  //     email = emailValue;
+  //   } else {
+  //     setPasswordErrorBool(true);
+  //     console.log(passwordErrorBool);
+  //   }
+  // };
 
   return (
     <div className="h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
@@ -92,7 +133,7 @@ export default function Page() {
         </div>
         <div className="col-auto">
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleRegistration}
             className="flex flex-col justify-center mx-auto space-y-8"
           >
             <h1 className="text-center text-2xl md:text-3xl text-slate pt-10 md:py-6">
@@ -141,6 +182,7 @@ export default function Page() {
             )}
             <button
               type="submit"
+              // disabled={!canSubmit}
               className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"
             >
               Submit
