@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 // import { initialize } from "next/dist/server/lib/render-server";
 // import { initializeApp } from "firebase/app";
-import { app } from "../../../firebaseConfig";
 
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
@@ -25,7 +24,6 @@ export default function Page() {
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
   useEffect(() => {
-    app;
     const auth = getAuth();
     //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
     //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
