@@ -54,6 +54,7 @@ export default function Page() {
         // });
         const userCredentials = await signUp(email, password);
         const uid = userCredentials.user.uid;
+        console.log(`Navigating to /user-profile/${uid}`);
         router.push(`/user-profile/${uid}`);
       } catch (error: any) {
         setPasswordErrorBool(false);
@@ -149,10 +150,3 @@ export default function Page() {
     </div>
   );
 }
-
-// const email = e.target.elements.namedItem("email-address").value;
-// const password = password1;
-
-// console.log(email, "<<email");
-//     console.log(password, "<<password");
-//     console.log(data, "<<data");
