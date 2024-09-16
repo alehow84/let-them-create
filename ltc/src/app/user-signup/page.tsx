@@ -6,7 +6,7 @@ import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { useState, useEffect } from "react";
 
-import { RegistrationType } from "../types/AuthTypes";
+// import { RegistrationType } from "../types/AuthTypes";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -15,38 +15,18 @@ export default function Page() {
   const [password2, setPassword2] = useState<string>("");
   const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
-  const [data, setData] = useState<RegistrationType>({
-    email: "",
-    password: "",
-  });
+  // const [data, setData] = useState<RegistrationType>({
+  //   email: "",
+  //   password: "",
+  // });
+  const [signUpError, setSignUpError] = useState<any>(null);
+
   const { signUp } = useAuth();
   const router = useRouter();
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
   useEffect(() => {
-    // const auth = getAuth();
-    //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
-    //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
-
-    console.log("Password");
-
-    // createUserWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     const user = userCredential.user;
-    //     const db = getFirestore();
-    //     setDoc(doc(db, "users", user.uid), {
-    //       email: user.email,
-    //     });
-    //     // fets user data if needed
-    //     //set profile created state to true
-    //     //redirect user to their profile
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     console.log(errorCode, ":", errorMessage);
-    //     // handle the error
-    //   });
+    console.log("Rendered");
   }, [passwordErrorBool]);
 
   //store password and password retype to check they match
@@ -60,25 +40,28 @@ export default function Page() {
 
   const handleRegistration = async (e: any) => {
     e.preventDefault();
-
     if (password1 === password2 && regex.test(password1)) {
       setPasswordErrorBool(false);
       setUserCreated(true);
-      setData({
-        email: e.target.elements.namedItem("email-address").value,
-        password: password1,
-      });
+
+      try {
+        const email = e.target.elements.namedItem("email-address").value;
+        const password = password1;
+        //this might not be required
+        // setData({
+        //   email,
+        //   password,
+        // });
+        const userCredentials = await signUp(email, password);
+        const uid = userCredentials.user.uid;
+        router.push(`/user-profile/${uid}`);
+      } catch (error: any) {
+        setPasswordErrorBool(false);
+        setSignUpError(error.message);
+      }
     } else {
       setPasswordErrorBool(true);
     }
-    try {
-      await signUp(data.email, data.password);
-      router.push(`/user-profile/${data.email}`);
-    } catch (error: any) {
-      //need to handle error message
-      console.log(error.message);
-    }
-    console.log(data);
   };
 
   return (
@@ -139,6 +122,13 @@ export default function Page() {
             ) : (
               <></>
             )}
+            {signUpError ? (
+              <div className="text-center text-xs text-red-600 mx-auto border-0 md:w-1/2">
+                {signUpError}
+              </div>
+            ) : (
+              <></>
+            )}
             {userCreated ? (
               <div className="text-green-800 mx-auto border-0">Success!</div>
             ) : (
@@ -159,3 +149,10 @@ export default function Page() {
     </div>
   );
 }
+
+// const email = e.target.elements.namedItem("email-address").value;
+// const password = password1;
+
+// console.log(email, "<<email");
+//     console.log(password, "<<password");
+//     console.log(data, "<<data");

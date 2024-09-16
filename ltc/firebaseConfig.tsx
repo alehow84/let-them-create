@@ -18,20 +18,10 @@ const firebaseConfig = {
 };
 
 //Initialise firebase if not already initialised
-if (!getApps().length) {
-  initializeApp(firebaseConfig);
-}
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 
 //export the things i need
-const app = initializeApp(firebaseConfig);
+
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const auth = getAuth();
-
-/*
--create userProfile page
--import ProtectedRoute, useAuth, useRouter into user-signup, user-login, user-profile
-- 
--Create Authcontext and AuthContextProvider
-
-*/
