@@ -67,7 +67,7 @@ export const AuthContextProvider = ({
 
   // Wrap the children with the context provider
   return (
-    <AuthContext.Provider value={{ user, signUp, logIn, logOut }}>
+    <AuthContext.Provider value={{ user, signUp, logIn, logOut, loading }}>
       {loading ? null : children}
     </AuthContext.Provider>
   );

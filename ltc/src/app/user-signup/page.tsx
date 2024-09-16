@@ -21,7 +21,7 @@ export default function Page() {
   // });
   const [signUpError, setSignUpError] = useState<any>(null);
 
-  const { signUp } = useAuth();
+  const { signUp, loading } = useAuth();
   const router = useRouter();
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
@@ -55,6 +55,8 @@ export default function Page() {
         const userCredentials = await signUp(email, password);
         const uid = userCredentials.user.uid;
         console.log(`Navigating to /user-profile/${uid}`);
+        //setup firebase storage in firebase
+        //push user data to db firestorage
         router.push(`/user-profile/${uid}`);
       } catch (error: any) {
         setPasswordErrorBool(false);

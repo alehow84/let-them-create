@@ -10,3 +10,5 @@ if (!firebaseAdmin.apps.length) {
     databaseURL: `https://${process.env.NEXT_PUBLIC_PROJECT_ID}.firebaseio.com`,
   });
 }
+
+export { firebaseAdmin };
