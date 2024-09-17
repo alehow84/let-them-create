@@ -1,5 +1,7 @@
+"use client";
+
 import { useAuth } from "../contexts/AuthContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 //this component helps to protect route to users profile page from unauthenticated users
