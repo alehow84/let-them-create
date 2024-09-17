@@ -5,22 +5,17 @@ import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { useState, useEffect } from "react";
-
-// import { RegistrationType } from "../types/AuthTypes";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../../../firebaseConfig";
 import { useRouter } from "next/navigation";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc } from "firebase/firestore";
 
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
-  // const [data, setData] = useState<RegistrationType>({
-  //   email: "",
-  //   password: "",
-  // });
+
   const [signUpError, setSignUpError] = useState<any>(null);
 
   const { signUp, loading } = useAuth();
@@ -31,7 +26,6 @@ export default function Page() {
     console.log("Rendered");
   }, [passwordErrorBool]);
 
-  //store password and password retype to check they match
   const handlePassword1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword1(e.target.value);
   };
@@ -49,11 +43,6 @@ export default function Page() {
       try {
         const email = e.target.elements.namedItem("email-address").value;
         const password = password1;
-        //this might not be required
-        // setData({
-        //   email,
-        //   password,
-        // });
         const userCredentials = await signUp(email, password);
         const user = userCredentials.user;
 
@@ -64,14 +53,17 @@ export default function Page() {
             email: user.email,
             displayName: user.displayName || null,
           });
+          //need to add a step in here to add the document id as a key value pair in the doc
           console.log("Document written with ID", docRef.id);
-          router.push(`/user-profile/${user.uid}`);
+          //update doc with its own documentRefId to pass to the page it is directed to
+          await updateDoc(docRef, { documentId: docRef.id });
+          router.push(`/user-profile/${docRef.id}`);
         } catch (error: any) {
-          setSignUpError(error.message);
+          setSignUpError(`Error creating user: ${error.message}`);
         }
       } catch (error: any) {
         setPasswordErrorBool(false);
-        setSignUpError(error.message);
+        setSignUpError(`Error authenticating user: ${error.message}`);
       }
     } else {
       setPasswordErrorBool(true);
@@ -143,6 +135,7 @@ export default function Page() {
             ) : (
               <></>
             )}
+            {/*remove userCreated conditional rendering and state when redirection to userProfile is working*/}
             {userCreated ? (
               <div className="text-green-800 mx-auto border-0">Success!</div>
             ) : (
