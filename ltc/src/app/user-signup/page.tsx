@@ -5,51 +5,27 @@ import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { useState, useEffect } from "react";
-
-import { RegistrationType } from "../types/AuthTypes";
 import { useAuth } from "../contexts/AuthContext";
+import { db } from "../../../firebaseConfig";
 import { useRouter } from "next/navigation";
+import { collection, addDoc, updateDoc } from "firebase/firestore";
 
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
-  const [data, setData] = useState<RegistrationType>({
-    email: "",
-    password: "",
-  });
-  const { signUp } = useAuth();
+
+  const [signUpError, setSignUpError] = useState<any>(null);
+
+  const { signUp, loading } = useAuth();
   const router = useRouter();
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
   useEffect(() => {
-    // const auth = getAuth();
-    //Will I have to fetch the user data from the data base here and the redirect to userProfile page?
-    //Will there need to be a state for profileCreated that when true, the useEffect redirects to the user profile page?
-
-    console.log("Password");
-
-    // createUserWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     const user = userCredential.user;
-    //     const db = getFirestore();
-    //     setDoc(doc(db, "users", user.uid), {
-    //       email: user.email,
-    //     });
-    //     // fets user data if needed
-    //     //set profile created state to true
-    //     //redirect user to their profile
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     console.log(errorCode, ":", errorMessage);
-    //     // handle the error
-    //   });
+    console.log("Rendered");
   }, [passwordErrorBool]);
 
-  //store password and password retype to check they match
   const handlePassword1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword1(e.target.value);
   };
@@ -60,25 +36,38 @@ export default function Page() {
 
   const handleRegistration = async (e: any) => {
     e.preventDefault();
-
     if (password1 === password2 && regex.test(password1)) {
       setPasswordErrorBool(false);
       setUserCreated(true);
-      setData({
-        email: e.target.elements.namedItem("email-address").value,
-        password: password1,
-      });
+
+      try {
+        const email = e.target.elements.namedItem("email-address").value;
+        const password = password1;
+        const userCredentials = await signUp(email, password);
+        const user = userCredentials.user;
+
+        //2nd try/catch block dependent on outcome of successful signup - send new user details to firebase collection
+        try {
+          const docRef = await addDoc(collection(db, "users"), {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName || null,
+          });
+          //need to add a step in here to add the document id as a key value pair in the doc
+          console.log("Document written with ID", docRef.id);
+          //update doc with its own documentRefId to pass to the page it is directed to
+          await updateDoc(docRef, { documentId: docRef.id });
+          router.push(`/user-profile/${docRef.id}`);
+        } catch (error: any) {
+          setSignUpError(`Error creating user: ${error.message}`);
+        }
+      } catch (error: any) {
+        setPasswordErrorBool(false);
+        setSignUpError(`Error authenticating user: ${error.message}`);
+      }
     } else {
       setPasswordErrorBool(true);
     }
-    try {
-      await signUp(data.email, data.password);
-      router.push(`/user-profile/${data.email}`);
-    } catch (error: any) {
-      //need to handle error message
-      console.log(error.message);
-    }
-    console.log(data);
   };
 
   return (
@@ -139,6 +128,14 @@ export default function Page() {
             ) : (
               <></>
             )}
+            {signUpError ? (
+              <div className="text-center text-xs text-red-600 mx-auto border-0 md:w-1/2">
+                {signUpError}
+              </div>
+            ) : (
+              <></>
+            )}
+            {/*remove userCreated conditional rendering and state when redirection to userProfile is working*/}
             {userCreated ? (
               <div className="text-green-800 mx-auto border-0">Success!</div>
             ) : (
