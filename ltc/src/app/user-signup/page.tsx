@@ -8,7 +8,9 @@ import { useState, useEffect } from "react";
 
 // import { RegistrationType } from "../types/AuthTypes";
 import { useAuth } from "../contexts/AuthContext";
+import { db } from "../../../firebaseConfig";
 import { useRouter } from "next/navigation";
+import { collection, addDoc } from "firebase/firestore";
 
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
@@ -53,11 +55,20 @@ export default function Page() {
         //   password,
         // });
         const userCredentials = await signUp(email, password);
-        const uid = userCredentials.user.uid;
-        console.log(`Navigating to /user-profile/${uid}`);
-        //setup firebase storage in firebase
-        //push user data to db firestorage
-        router.push(`/user-profile/${uid}`);
+        const user = userCredentials.user;
+
+        //2nd try/catch block dependent on outcome of successful signup - send new user details to firebase collection
+        try {
+          const docRef = await addDoc(collection(db, "users"), {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName || null,
+          });
+          console.log("Document written with ID", docRef.id);
+          router.push(`/user-profile/${user.uid}`);
+        } catch (error: any) {
+          setSignUpError(error.message);
+        }
       } catch (error: any) {
         setPasswordErrorBool(false);
         setSignUpError(error.message);

@@ -1,8 +1,3 @@
-/*
--Add SDKs for Firebase products I want to use
--Add my web apps firebase configurations
--Initialise Firebase
- */
 import { getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
