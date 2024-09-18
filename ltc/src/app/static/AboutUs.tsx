@@ -12,7 +12,8 @@ export default function AboutUs() {
           <span className="underline decoration-wavy text-orange-dark">
             inspire
           </span>{" "}
-          you by hosting arts and crafts events where you are able to{" "}
+          you by hosting and helping you to find arts and crafts events where
+          you can{" "}
           <span className="underline decoration-wavy text-orange-dark">
             create
           </span>{" "}

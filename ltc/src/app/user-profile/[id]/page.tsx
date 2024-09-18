@@ -1,5 +1,3 @@
-"use client";
-
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/Footer";
 import BurgerMenu from "../../components/burgerMenu/BurgerMenu";
@@ -9,7 +7,7 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { db } from "../../../../firebaseConfig";
 import { doc, getDoc, collection, query, where } from "firebase/firestore";
-import { useState } from "react";
+import { Event } from "../../types/EventTypes";
 
 interface UserProfileProps {
   params: {
@@ -17,49 +15,23 @@ interface UserProfileProps {
   };
 }
 
-//will need to update this interface when I add projects to a user
 interface currentUser {
   uid: string;
   email: string;
   displayName: string | null;
+  events: Event[] | [];
   documentId: string;
 }
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { id } = context.params as { id: string };
-//   console.log("ID:", id);
-//   try {
-//     // Get user data from Firestore
-//     const userDoc = doc(db, "users", `${id}`);
-//     const docSnap = await getDoc(userDoc);
-
-//     if (docSnap.exists()) {
-//       return {
-//         props: {
-//           currentUser: docSnap.data,
-//         },
-//       };
-//     } else {
-//       return {
-//         notFound: true,
-//       };
-//     }
-//   } catch (error) {
-//     //create an error state and set to then be rendered if there's an error
-//     console.error("Error fetching user data:", error);
-//     return {
-//       notFound: true,
-//     };
-//   }
-// };
 
 export default async function UserProfile({ params }: UserProfileProps) {
   const { id } = params;
   console.log(id, "<<id");
-  const [errorMsg, setErrorMsg] = useState<any>(null);
 
   try {
+    //This part is not working due to insufficient permissions
+    //Look up userDoc with id param which is the docRef.id
     const userDoc = doc(db, "users", `${id}`);
+    //get a snapshot of the doument
     const docSnap = await getDoc(userDoc);
 
     if (docSnap.exists()) {
@@ -69,14 +41,11 @@ export default async function UserProfile({ params }: UserProfileProps) {
           <ProtectedRoute>
             <Navbar />
             <BurgerMenu />
-            <main className="h-dvh">
-              <h1>{`User Profile`}</h1>
-              {/* {user && user.uid === uid && (
-                <div>
-                  <p>Email: {user.email}</p>
-                  <p>UID: {user.uid}</p>
-                </div>
-              )} */}
+            <main className="h-dvh flex flex-col">
+              <div>
+                <h1>My Events</h1>
+              </div>
+              <div>{user.email}</div>
             </main>
             <Footer />
           </ProtectedRoute>
@@ -86,8 +55,17 @@ export default async function UserProfile({ params }: UserProfileProps) {
       return <div className="text-red-600">User not found</div>;
     }
   } catch (error: any) {
-    //update state to contain error
-    setErrorMsg(error.message);
-    return <div>{errorMsg}</div>;
+    return (
+      <>
+        <Navbar />
+        <BurgerMenu />
+        <div className="h-dvh flex items-center">
+          <div className="mx-auto text-xl text-center">
+            Something went wrong: {error.message}
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
   }
 }
