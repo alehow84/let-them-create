@@ -13,12 +13,11 @@ import { collection, addDoc, updateDoc } from "firebase/firestore";
 export default function Page() {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
-  const [userCreated, setUserCreated] = useState<boolean>(false);
   const [passwordErrorBool, setPasswordErrorBool] = useState<boolean>(false);
 
   const [signUpError, setSignUpError] = useState<any>(null);
 
-  const { signUp, loading } = useAuth();
+  const { signUp } = useAuth();
   const router = useRouter();
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
@@ -38,7 +37,6 @@ export default function Page() {
     e.preventDefault();
     if (password1 === password2 && regex.test(password1)) {
       setPasswordErrorBool(false);
-      setUserCreated(true);
 
       try {
         const email = e.target.elements.namedItem("email-address").value;
@@ -52,9 +50,8 @@ export default function Page() {
             uid: user.uid,
             email: user.email,
             displayName: user.displayName || null,
+            events: [],
           });
-          //need to add a step in here to add the document id as a key value pair in the doc
-          console.log("Document written with ID", docRef.id);
           //update doc with its own documentRefId to pass to the page it is directed to
           await updateDoc(docRef, { documentId: docRef.id });
           router.push(`/user-profile/${docRef.id}`);
@@ -100,6 +97,7 @@ export default function Page() {
             <input
               type="text"
               id="email-address"
+              name="email-address"
               placeholder="Email address"
               required
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
@@ -107,6 +105,7 @@ export default function Page() {
             <input
               type="password"
               id="password1"
+              name="password1"
               placeholder="Password"
               required
               onChange={handlePassword1Change}
@@ -115,6 +114,7 @@ export default function Page() {
             <input
               type="password"
               id="password2"
+              name="password2"
               placeholder="Re-type your Password"
               required
               onChange={handlePassword2Change}
@@ -135,12 +135,7 @@ export default function Page() {
             ) : (
               <></>
             )}
-            {/*remove userCreated conditional rendering and state when redirection to userProfile is working*/}
-            {userCreated ? (
-              <div className="text-green-800 mx-auto border-0">Success!</div>
-            ) : (
-              <></>
-            )}
+
             <button
               type="submit"
               className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"

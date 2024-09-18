@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { db } from "../../../../firebaseConfig";
 import { doc, getDoc, collection, query, where } from "firebase/firestore";
+import { Event } from "../../types/EventTypes";
 
 interface UserProfileProps {
   params: {
@@ -14,11 +15,11 @@ interface UserProfileProps {
   };
 }
 
-//will need to update this interface when I add projects to a user
 interface currentUser {
   uid: string;
   email: string;
   displayName: string | null;
+  events: Event[] | [];
   documentId: string;
 }
 
@@ -64,7 +65,9 @@ export default async function UserProfile({ params }: UserProfileProps) {
         <Navbar />
         <BurgerMenu />
         <div className="h-dvh flex items-center">
-          <div className="mx-auto">Something went wrong: {error.message}</div>
+          <div className="mx-auto text-xl text-center">
+            Something went wrong: {error.message}
+          </div>
         </div>
         <Footer />
       </>
