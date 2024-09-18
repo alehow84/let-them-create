@@ -28,7 +28,10 @@ export default async function UserProfile({ params }: UserProfileProps) {
   console.log(id, "<<id");
 
   try {
+    //This part is not working due to insufficient permissions
+    //Look up userDoc with id param which is the docRef.id
     const userDoc = doc(db, "users", `${id}`);
+    //get a snapshot of the doument
     const docSnap = await getDoc(userDoc);
 
     if (docSnap.exists()) {
@@ -43,12 +46,6 @@ export default async function UserProfile({ params }: UserProfileProps) {
                 <h1>My Events</h1>
               </div>
               <div>{user.email}</div>
-              {/* {user && user.uid === uid && (
-                <div>
-                  <p>Email: {user.email}</p>
-                  <p>UID: {user.uid}</p>
-                </div>
-              )} */}
             </main>
             <Footer />
           </ProtectedRoute>
@@ -58,8 +55,6 @@ export default async function UserProfile({ params }: UserProfileProps) {
       return <div className="text-red-600">User not found</div>;
     }
   } catch (error: any) {
-    //update state to contain error
-
     return (
       <>
         <Navbar />
