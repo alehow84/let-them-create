@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
-import { AuthContextProvider } from "./contexts/AuthContext";
-import { GlobalStateProvider } from "./contexts/GlobalStateContext";
+import { AuthContextProvider } from "@/contexts/AuthContext";
+import { GlobalStateProvider } from "@/contexts/GlobalStateContext";
 
 const hind = Hind_Siliguri({ weight: "500", subsets: ["bengali"] });
 

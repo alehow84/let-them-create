@@ -4,7 +4,7 @@ import Burger from "./elements/Burger";
 import Menu from "./elements/Menu";
 import Close from "./elements/Close";
 
-import { useGlobalState } from "@/app/contexts/GlobalStateContext";
+import { useGlobalState } from "@/contexts/GlobalStateContext";
 import { useEffect } from "react";
 
 export default function BurgerMenu() {

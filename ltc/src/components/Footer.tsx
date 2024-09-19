@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import Insta from "../../../public/icons/instagram.svg";
-import TikTok from "../../../public/icons/tiktok.svg";
-import Copyright from "../../../public/icons/copyright.svg";
+import Insta from "../../public/icons/instagram.svg";
+import TikTok from "../../public/icons/tiktok.svg";
+import Copyright from "../../public/icons/copyright.svg";
 
 export default function Footer() {
   return (

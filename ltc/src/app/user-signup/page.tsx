@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import HomeButtonLogo from "../components/HomeButtonLogo";
+import HomeButtonLogo from "../../components/HomeButtonLogo";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { db } from "../../../firebaseConfig";
 import { useRouter } from "next/navigation";
 import { collection, addDoc, updateDoc } from "firebase/firestore";

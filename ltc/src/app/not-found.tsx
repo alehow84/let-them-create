@@ -1,6 +1,6 @@
-import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/Footer";
-import BurgerMenu from "./components/burgerMenu/BurgerMenu";
+import Navbar from "@/components/navbar/Navbar";
+import Footer from "@/components/Footer";
+import BurgerMenu from "@/components/burgerMenu/BurgerMenu";
 
 export default function Custom404() {
   return (

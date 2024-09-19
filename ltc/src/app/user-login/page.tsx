@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import userLoginPic from "../../../public/bg-images/userLogin.jpg";
-import HomeButtonLogo from "../components/HomeButtonLogo";
+import HomeButtonLogo from "../../components/HomeButtonLogo";
 import Link from "next/link";
 import { useState } from "react";
-import { LoginType } from "../types/AuthTypes";
-import { useAuth } from "../contexts/AuthContext";
+import { LoginType } from "../../types/AuthTypes";
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";

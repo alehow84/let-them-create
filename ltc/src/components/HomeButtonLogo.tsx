@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../../../public/icons/HomeButtonLogo.svg";
+import Logo from "../../public/icons/HomeButtonLogo.svg";
 
 export default function HomeButtonLogo({ size }: { size: number }) {
   return (

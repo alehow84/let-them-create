@@ -1,13 +1,13 @@
-import Navbar from "../../components/navbar/Navbar";
-import Footer from "../../components/Footer";
-import BurgerMenu from "../../components/burgerMenu/BurgerMenu";
-import ProtectedRoute from "../../components/ProtectedRoute";
-import { useAuth } from "../../contexts/AuthContext";
+import Navbar from "@/components/navbar/Navbar";
+import Footer from "@/components/Footer";
+import BurgerMenu from "@/components/burgerMenu/BurgerMenu";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { db } from "../../../../firebaseConfig";
 import { doc, getDoc, collection, query, where } from "firebase/firestore";
-import { Event } from "../../types/EventTypes";
+import { Event } from "../../../types/EventTypes";
 
 interface UserProfileProps {
   params: {

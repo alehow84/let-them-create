@@ -1,6 +1,6 @@
 import Typing from "../Typing";
 import { Playpen_Sans } from "next/font/google";
-import AboutUs from "@/app/static/AboutUs";
+import AboutUs from "../static/AboutUs";
 
 const Playpen = Playpen_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
