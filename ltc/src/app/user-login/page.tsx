@@ -3,6 +3,11 @@ import userLoginPic from "../../../public/bg-images/userLogin.jpg";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 
+/*
+
+
+*/
+
 export default function Page() {
   return (
     <div className="h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
@@ -19,17 +24,22 @@ export default function Page() {
           </div>
         </div>
         <div className="col-auto">
-          <form className="flex flex-col justify-center mx-auto space-y-8">
+          <form
+            action=""
+            className="flex flex-col justify-center mx-auto space-y-8"
+          >
             <h1 className="text-center text-3xl text-slate py-6">Log in</h1>
             <input
               type="text"
               id="email-address"
+              name="email-address"
               placeholder="Email address"
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             <input
               type="text"
               id="password"
+              name="password"
               placeholder="Password"
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />

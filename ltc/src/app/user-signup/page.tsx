@@ -4,7 +4,7 @@ import Image from "next/image";
 import HomeButtonLogo from "../components/HomeButtonLogo";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../../../firebaseConfig";
 import { useRouter } from "next/navigation";
@@ -20,10 +20,6 @@ export default function Page() {
   const { signUp } = useAuth();
   const router = useRouter();
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
-
-  useEffect(() => {
-    console.log("Rendered");
-  }, [passwordErrorBool]);
 
   const handlePassword1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword1(e.target.value);
