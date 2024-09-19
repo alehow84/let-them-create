@@ -9,7 +9,7 @@
  - Look at BurgerMenu for inspiration
 */
 import Image from "next/image";
-import TestImg from "../../../public/bg-images/pexels-freestocks-251274.jpg";
+import TestImg from "../../public/bg-images/pexels-freestocks-251274.jpg";
 
 export default function EventCard() {
   return (
