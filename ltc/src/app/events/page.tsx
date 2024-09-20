@@ -14,7 +14,7 @@ import { get } from "http";
 */
 
 export default function Page() {
-  const [loading, isLoading] = useState<boolean>(false);
+  const [isloading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
   const [events, setEvents] = useState<any>(null);
 
@@ -23,9 +23,10 @@ export default function Page() {
       .then((response) => response.json())
       .then((data) => {
         setEvents(data);
+        setIsLoading(false);
         console.log(events, "<<events");
       });
-  }, []);
+  }, [isloading]);
   /*
   -the use effect will listen for a change to a state called userQuery, which will be updated when the user types in the search bar.
   - userQuery state might be a global context as the NavBar is available across several routes
@@ -36,9 +37,13 @@ export default function Page() {
       <Navbar />
       <BurgerMenu />
       <main className="h-dvh">
-        {events.forEach((event: any) => (
-          <EventCard thisEvent={event} />
-        ))}
+        {events ? (
+          events.forEach((event: any) => <EventCard thisEvent={event} />)
+        ) : (
+          <div className="mx-auto text-xl items-center text-center">
+            Loading events ...
+          </div>
+        )}
       </main>
       <Footer />
     </>
