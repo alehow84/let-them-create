@@ -5,7 +5,7 @@ import BurgerMenu from "@/components/burgerMenu/BurgerMenu";
 import Footer from "@/components/Footer";
 import EventCard from "@/components/EventCard";
 import { useEffect, useState } from "react";
-import { get } from "http";
+import eventsJson from "../events.json";
 
 /*
 -here i will make a call to the serpApi and will render all events
@@ -19,31 +19,45 @@ export default function Page() {
   const [events, setEvents] = useState<any>(null);
 
   useEffect(() => {
-    fetch("/api/events")
-      .then((response) => response.json())
-      .then((data) => {
-        setEvents(data);
-        setIsLoading(false);
-        console.log(events, "<<events");
-      });
+    //comment back in when submitting project
+    // fetch("/api/events")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setEvents(data);
+    //     setIsLoading(false);
+    //     console.log(events, "<<events");
+    //   }).catch((error) => setError(error));
+
+    //comment the below 2 lines out when submitting project
+    setEvents(eventsJson);
+    setIsLoading(false);
   }, [isloading]);
-  /*
-  -the use effect will listen for a change to a state called userQuery, which will be updated when the user types in the search bar.
-  - userQuery state might be a global context as the NavBar is available across several routes
-  */
 
   return (
     <>
       <Navbar />
       <BurgerMenu />
-      <main className="h-dvh">
-        {events ? (
-          events.forEach((event: any) => <EventCard thisEvent={event} />)
-        ) : (
-          <div className="mx-auto text-xl items-center text-center">
-            Loading events ...
-          </div>
-        )}
+      <main className="h-auto min-h-dvh container mx-auto flex items-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 mb-8 justify-center items-center">
+          {events && !isloading ? (
+            events.map((event: any) => <EventCard thisEvent={event} />)
+          ) : (
+            <div className="">
+              <div className="mx-auto text-xl text-center">
+                Loading events ...
+              </div>
+            </div>
+          )}
+          {error ? (
+            <div className="">
+              <div className="mx-auto text-xl text-center">
+                Sorry, we're having problems! Please refresh or try again later.
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
       </main>
       <Footer />
     </>
