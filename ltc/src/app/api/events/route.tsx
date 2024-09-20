@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 import { getJson } from "serpapi";
 
 //define function to request info from
-export const getEvents = async () => {
+const getEvents = async () => {
   const params = {
     engine: "google_events",
     q: `arts & crafts class`,
     hl: "en",
-    gl: "uk",
+    gl: "gb",
     api_key: process.env.NEXT_PUBLIC_SERPAPI_KEY,
   };
   try {
