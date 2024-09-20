@@ -11,7 +11,7 @@
 import Image from "next/image";
 import TestImg from "../../public/bg-images/pexels-freestocks-251274.jpg";
 
-export default function EventCard() {
+export default function EventCard({ thisEvent }: { thisEvent: any }) {
   return (
     <div className="bg-white rounded-xl m-4 p-3 w-fit text-slate shadow-xl">
       <div className="flex flex-col">

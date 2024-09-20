@@ -5,8 +5,6 @@ import { getAuth } from "firebase/auth";
 //might need to uninstall firebase admin
 // import { initializeApp } from "firebase-admin";
 
-console.log(process.env.NEXT_PUBLIC_API_KEY, "api key");
-
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,

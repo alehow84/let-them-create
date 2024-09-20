@@ -4,8 +4,8 @@ import Navbar from "@/components/navbar/Navbar";
 import BurgerMenu from "@/components/burgerMenu/BurgerMenu";
 import Footer from "@/components/Footer";
 import EventCard from "@/components/EventCard";
-import { getCraftEvents } from "@/lib/GoogleEventsApi";
 import { useEffect, useState } from "react";
+import { get } from "http";
 
 /*
 -here i will make a call to the serpApi and will render all events
@@ -17,11 +17,14 @@ export default function Page() {
   const [loading, isLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
   const [events, setEvents] = useState<any>(null);
-  console.log(events, "<<events");
 
   useEffect(() => {
-    const events = getCraftEvents();
-    setEvents(events);
+    fetch("/api/events")
+      .then((response) => response.json())
+      .then((data) => {
+        setEvents(data);
+        console.log(events, "<<events");
+      });
   }, []);
   /*
   -the use effect will listen for a change to a state called userQuery, which will be updated when the user types in the search bar.
@@ -33,7 +36,9 @@ export default function Page() {
       <Navbar />
       <BurgerMenu />
       <main className="h-dvh">
-        <EventCard />
+        {events.forEach((event: any) => (
+          <EventCard thisEvent={event} />
+        ))}
       </main>
       <Footer />
     </>
