@@ -19,6 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={hind.className}>
+        <script
+          type="text/javascript"
+          src="https://cdn.addevent.com/libs/atc/1.6.1/atc.min.js"
+          async
+          defer
+        />
         <AuthContextProvider>
           <GlobalStateProvider>{children}</GlobalStateProvider>
         </AuthContextProvider>

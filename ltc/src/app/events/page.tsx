@@ -40,7 +40,9 @@ export default function Page() {
       <main className="h-auto min-h-dvh container mx-auto flex items-center">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 mb-8 justify-center items-center">
           {events && !isloading ? (
-            events.map((event: any) => <EventCard thisEvent={event} />)
+            events.map((event: any, index: number) => (
+              <EventCard thisEvent={event} key={index} />
+            ))
           ) : (
             <div className="">
               <div className="mx-auto text-xl text-center">

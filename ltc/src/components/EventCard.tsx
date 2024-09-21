@@ -41,8 +41,17 @@ export default function EventCard({ thisEvent }: { thisEvent: any }) {
           </div>
         </div>
         <div className="flex justify-end mr-3">
-          <EventCardButton text="Tell us you're going" />
-          <EventCardButton text="Add to calendar" />
+          <EventCardButton text="Register for event" />
+          {/* <EventCardButton text="Add to calendar" /> */}
+          <div title="Add to Calendar" className="addeventatc">
+            Add to Calendar
+            <span className="start">10/05/2024 08:00 AM</span>
+            <span className="end">10/05/2024 10:00 AM</span>
+            <span className="timezone">America/Los_Angeles</span>
+            <span className="title">Summary of the event</span>
+            <span className="description">Description of the event</span>
+            <span className="location">Location of the event</span>
+          </div>
         </div>
       </div>
     </div>
