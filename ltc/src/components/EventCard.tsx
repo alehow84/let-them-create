@@ -8,10 +8,62 @@
  b. what buttons are rendered.
  - Look at BurgerMenu for inspiration
 */
+import {
+  format,
+  parse,
+  addMinutes,
+  differenceInMinutes,
+  addDays,
+} from "date-fns";
 import Link from "next/link";
 import EventCardButton from "./static/EventCardButton";
 
 export default function EventCard({ thisEvent }: { thisEvent: any }) {
+  type EventDate = {
+    start_date: string;
+    when: string;
+  };
+
+  function formatEventDates({ eventDate }: { eventDate: EventDate }) {
+    if (!eventDate) {
+      return {
+        startDate: "10/06/2024 09:00 AM",
+        endDate: "10/06/2024 11:00 AM",
+      };
+    }
+    console.log(eventDate, "<<eventDate in formatEventDates");
+    const [startTime, endTime] = eventDate.when.split("-");
+
+    const startDateTime = parse(
+      `${eventDate.start_date} ${startTime}`,
+      "MMM d h:mm",
+      new Date()
+    );
+
+    let endDateTime = parse(
+      `${eventDate.start_date} ${endTime}`,
+      "MMM d h:mm",
+      new Date()
+    );
+
+    if (endDateTime < startDateTime) {
+      endDateTime = addDays(endDateTime, 1);
+    }
+
+    const durationMinutes = differenceInMinutes(endDateTime, startDateTime);
+    const finalEndDateTime = addMinutes(startDateTime, durationMinutes);
+
+    const startFormatted = format(startDateTime, "MM/dd/yyyy hh:mm aa");
+    const endFormatted = format(finalEndDateTime, "MM/dd/yyyy hh:mm aa");
+
+    return {
+      startDate: startFormatted,
+      endDate: endFormatted,
+    };
+  }
+  console.log(thisEvent.date, "<<thisEvent.date");
+  const formattedDates = formatEventDates(thisEvent.date);
+
   return (
     <div className="h-full w-full bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-110 transition duration-150 ease-in-out ">
       <div className="flex flex-col h-full">
@@ -41,16 +93,18 @@ export default function EventCard({ thisEvent }: { thisEvent: any }) {
           </div>
         </div>
         <div className="flex justify-end mr-3">
-          <EventCardButton text="Register for event" />
+          <EventCardButton text="Register" />
           {/* <EventCardButton text="Add to calendar" /> */}
           <div title="Add to Calendar" className="addeventatc">
             Add to Calendar
-            <span className="start">10/05/2024 08:00 AM</span>
-            <span className="end">10/05/2024 10:00 AM</span>
-            <span className="timezone">America/Los_Angeles</span>
-            <span className="title">Summary of the event</span>
-            <span className="description">Description of the event</span>
-            <span className="location">Location of the event</span>
+            <span className="start">{formattedDates.startDate}</span>
+            <span className="end">{formattedDates.endDate}</span>
+            <span className="timezone">Europe/London</span>
+            <span className="title">{thisEvent.title}</span>
+            <span className="description">{thisEvent.description}</span>
+            <span className="location">
+              {thisEvent.address[0]}, {thisEvent.address[1]}
+            </span>
           </div>
         </div>
       </div>
