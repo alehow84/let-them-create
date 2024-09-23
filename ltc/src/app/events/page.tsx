@@ -31,7 +31,7 @@ export default function Page() {
     //comment the below 2 lines out when submitting project
     setEvents(eventsJson);
     setIsLoading(false);
-  }, [isloading]);
+  }, [events]);
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function Page() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 mb-8 justify-center items-center">
           {events && !isloading ? (
             events.map((event: any, index: number) => (
-              <EventCard thisEvent={event} key={index} />
+              <EventCard thisEvent={event} eventState={events} key={index} />
             ))
           ) : (
             <div className="">
