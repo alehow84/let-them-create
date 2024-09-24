@@ -10,13 +10,7 @@
 */
 "use client";
 
-import {
-  format,
-  parse,
-  addMinutes,
-  differenceInMinutes,
-  addDays,
-} from "date-fns";
+import { format, parse, addMinutes } from "date-fns";
 import Link from "next/link";
 import EventCardButton from "./static/EventCardButton";
 import { useEffect, useState } from "react";
@@ -40,6 +34,7 @@ export default function EventCard({
   };
 
   const formatDates = ({ eventDate }: { eventDate: EventDate }) => {
+    //function not quite working - does not correctly define the end date where there is a different end date to the start date in the second part of the eventDate.when string
     if (!eventDate) {
       return {
         startDate: "10/06/2024 09:00 AM",
@@ -48,28 +43,16 @@ export default function EventCard({
     }
 
     let startTimeMatch = null;
+    let endTimeMatch = null;
     let startTime = null;
     let eventStartDate = null;
     let eventEndDate = null;
     let endTime = null;
-
-    //need to check if there is a - in eventDate.when, and if so proceed. if there isn't one, startTime is the result of matching time format digits, and endTime is assumed to be this + 1hrs
-    if (!/–/.test(eventDate.when)) {
-      startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
-      startTime = startTimeMatch?.[0];
-      //need to handle how i will get endTime in this block
-    } else {
-      //need to remove the rest of the string from startTime
-      let [startTimeString, endTimeString] = eventDate.when.split("–");
-      startTimeMatch = startTimeString.match(/\d{2}:\d{2}/);
-      //define startTime as the isolated start time string
-      startTime = startTimeMatch?.[0];
-      const endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
-      endTime = endTimeMatch?.[0];
-    }
-
-    //make sure the abbreviated month in eventDate.start_date is only 3 chars to enable parsing
+    let endDateString = null;
+    let startDateString = null;
     const startMonthMatch = eventDate.start_date?.match(/^[A-Za-z]+/);
+
+    //handle making sure month abbrev is three chars long for parsing
     if (startMonthMatch && startMonthMatch[0].length > 3) {
       const truncEventStart = eventDate.start_date;
       const startDateBeg = truncEventStart.slice(0, 3);
@@ -78,59 +61,52 @@ export default function EventCard({
     } else if (startMonthMatch && startMonthMatch[0].length === 3) {
       eventStartDate = startMonthMatch[0];
     }
-    const startDateString = `${eventStartDate} ${startTime}`;
+    //update startTime
+    startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
+    startTime = startTimeMatch?.[0];
+    startDateString = `${eventStartDate} ${startTime}`;
     const startDateTime = parse(startDateString, "MMM d HH:mm", new Date());
 
-    // console.log(
-    //   eventStartDate,
-    //   "<<eventStartDate",
-    //   endTimeString,
-    //   "<<1endTime"
-    // );
+    //handle if there is an end time in eventDate.when, if not, create an endTime value (assumed +1hrs) and assign eventEndDate the same value as startDate
+    if (!/–/.test(eventDate.when)) {
+      startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
+      startTime = startTimeMatch?.[0];
+      if (startTime) {
+        const parsedTime = parse(startTime, "HH:mm", new Date());
+        const endTimeString = addMinutes(parsedTime, 60).toString();
+        endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
+        endTime = endTimeMatch?.[0];
+      }
+      eventEndDate = eventStartDate;
+    } else {
+      //handle if there is a start and endTim in eventDate.when, split the string at the - and reassign values for parsing and formatting
+      let [startTimeString, endTimeString] = eventDate.when.split("–");
+      startTimeMatch = startTimeString.match(/\d{2}:\d{2}/);
+      startTime = startTimeMatch?.[0];
+      endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
+      endTime = endTimeMatch?.[0];
+      const endDateDayMatch = endTimeString.match(/\d{1,2} /);
+      const endDateDay = endDateDayMatch?.[0];
+      const endDateMonthMatch = endTimeString.match(/^[A-Za-z]+/);
+      let endDateMonth = endDateMonthMatch?.[0];
+      //iif there is a match for a seperate date in the endTimeString, format endDateString correctly for parsing
+      if (endDateDay && endDateMonth) {
+        if (endDateMonth.length <= 3) {
+          endDateString = `${endDateMonth} ${endDateDay} ${endTime}`;
+        } else {
+          endDateMonth = endDateMonth.slice(0, 3);
+          endDateString = `${endDateMonth} ${endDateDay} ${endTime}`;
+        }
+      }
+    }
 
-    //need to check if endTime contains a string match.
-    //define a variable endMonthMatch to contain endTime?.match(/^[A-Za-z]+/)
-    //@@if that variable is true, then endTime = endTime.match(/\d{2}:\d{2}/)[0]
+    endDateString = `${eventStartDate} ${endTime}`;
 
-    /*
-    -if eventDate.when starts with a number
-    - define a variable to contain the results of 1)match up to two digits \d{1,2}.  & 2) matching an abbreviated month
-    - truncate the month if it is longer than 3 chars
-    -concatenate and reassign to eventEndDate
-    @@ - if endMonthMatch is false, reassign eventEndDate to be eventStartDate
-    */
-    const endMonthMatch = endTime?.match(/^[A-Za-z]+/);
-    if (endMonthMatch && endMonthMatch[0].length)
-      // const endTimeMonth = endTimeString?.match(/^[A-Za-z]+/);
-      // console.log(endTimeString?.match(/^[A-Za-z]+/), "endTime?.match(/^[A-Za-z]+/)");
-      // console.log(!endTimeMonth, "<<!endTimeMonth");
-      // if (endTimeMonth && endTimeMonth[0].length > 3) {
-      //   endTimeString = endTimeString?.match(/\d{2}:\d{2}/)[0];
-      //   console.log(endTimeString, "<<2endTime");
-      //   eventEndDate = endTimeMonth[0].slice(0, 3);
-      // } else {
-      //   eventEndDate = eventStartDate;
-      // }
+    let endDateTime = parse(endDateString, "MMM d HH:mm", new Date());
 
-      // let endDateTime = parse(
-      //   `${eventEndDate} ${endTime}`,
-      //   "MMM d HH:mm",
-      //   new Date()
-      // );
+    const endFormatted = format(endDateTime, "MM/dd/yyyy hh:mm aa");
 
-      //won't need this bit
-      // console.log(endDateTime, "<<endDateTime");
-      // if (endDateTime < startDateTime) {
-      //   endDateTime = addDays(endDateTime, 1);
-      // }
-
-      //won't need this bit
-      // const durationMinutes = differenceInMinutes(endDateTime, startDateTime);
-      // const finalEndDateTime = addMinutes(startDateTime, durationMinutes);
-
-      const startFormatted = format(startDateTime, "MM/dd/yyyy hh:mm aa");
-    //change finalEndDateTime here to be endDateTime
-    const endFormatted = format(finalEndDateTime, "MM/dd/yyyy hh:mm aa");
+    const startFormatted = format(startDateTime, "MM/dd/yyyy hh:mm aa");
 
     return {
       startDate: startFormatted,
@@ -174,11 +150,17 @@ export default function EventCard({
           <EventCardButton text="Register" />
           <div title="Add to Calendar" className="addeventatc">
             Add to Calendar
-            <span className="start">10/06/2024 09:00 AM</span>
-            <span className="end">10/06/2024 11:00 AM</span>
+            <span className="start">
+              {formatDates({ eventDate: thisEvent.date }).startDate}
+            </span>
+            <span className="end">
+              {formatDates({ eventDate: thisEvent.date }).endDate}
+            </span>
             <span className="timezone">Europe/London</span>
             <span className="title">{thisEvent.title}</span>
-            <span className="description">{thisEvent.description}</span>
+            <span className="description">
+              CHECK TIMINGS WITH ORGANISER: {thisEvent.description}
+            </span>
             <span className="location">
               {thisEvent.address[0]}, {thisEvent.address[1]}
             </span>
@@ -188,6 +170,3 @@ export default function EventCard({
     </div>
   );
 }
-
-//start {formatDates({ eventDate: thisEvent.date }).startDate}
-//end  {formatDates({ eventDate: thisEvent.date }).endDate}
