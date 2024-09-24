@@ -3,8 +3,11 @@ import Image from "next/image";
 import Insta from "../../public/icons/instagram.svg";
 import TikTok from "../../public/icons/tiktok.svg";
 import Copyright from "../../public/icons/copyright.svg";
+// import { useAuth } from "@/contexts/AuthContext";
 
 export default function Footer() {
+  // const { user } = useAuth();
+
   return (
     <footer className="flex items-center w-screen bg-slate-light p-6">
       <div className="flex">
@@ -31,6 +34,15 @@ export default function Footer() {
         </strong>
       </div>
       <div>
+        {/* {!user.uid ? (
+          <Link href="/staff-login">
+            <p className="text-white rounded-full hover:scale-125 transition-transform">
+              Staff Login
+            </p>
+          </Link>
+        ) : (
+          <></>
+        )} */}
         <Link href="/staff-login">
           <p className="text-white rounded-full hover:scale-125 transition-transform">
             Staff Login

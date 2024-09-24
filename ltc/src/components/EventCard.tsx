@@ -8,6 +8,12 @@
  b. what buttons are rendered.
  - Look at BurgerMenu for inspiration
 */
+
+/*
+- need to amend this so user can only register when logged in
+-and so user can only see add to calendar button when they are registered for an event
+
+*/
 "use client";
 
 import { format, parse, addMinutes } from "date-fns";
@@ -33,23 +39,11 @@ export default function EventCard({
     when: string;
   };
 
-  const formatDates = ({ eventDate }: { eventDate: EventDate }) => {
-    //function not quite working - does not correctly define the end date where there is a different end date to the start date in the second part of the eventDate.when string
-    if (!eventDate) {
-      return {
-        startDate: "10/06/2024 09:00 AM",
-        endDate: "10/06/2024 11:00 AM",
-      };
-    }
-
+  const formatDateInput = ({ eventDate }: { eventDate: EventDate }) => {
+    //format the date for the purposes of enabling adding to calendar with loosely accurate date info. Uses the correct start date and time, but assumes event ends on the same day and is 1 hour long
+    let eventStartDate = null;
     let startTimeMatch = null;
     let endTimeMatch = null;
-    let startTime = null;
-    let eventStartDate = null;
-    let eventEndDate = null;
-    let endTime = null;
-    let endDateString = null;
-    let startDateString = null;
     const startMonthMatch = eventDate.start_date?.match(/^[A-Za-z]+/);
 
     //handle making sure month abbrev is three chars long for parsing
@@ -63,49 +57,25 @@ export default function EventCard({
     }
     //update startTime
     startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
-    startTime = startTimeMatch?.[0];
-    startDateString = `${eventStartDate} ${startTime}`;
-    const startDateTime = parse(startDateString, "MMM d HH:mm", new Date());
-
-    //handle if there is an end time in eventDate.when, if not, create an endTime value (assumed +1hrs) and assign eventEndDate the same value as startDate
-    if (!/–/.test(eventDate.when)) {
-      startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
-      startTime = startTimeMatch?.[0];
-      if (startTime) {
-        const parsedTime = parse(startTime, "HH:mm", new Date());
-        const endTimeString = addMinutes(parsedTime, 60).toString();
-        endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
-        endTime = endTimeMatch?.[0];
-      }
-      eventEndDate = eventStartDate;
-    } else {
-      //handle if there is a start and endTim in eventDate.when, split the string at the - and reassign values for parsing and formatting
-      let [startTimeString, endTimeString] = eventDate.when.split("–");
-      startTimeMatch = startTimeString.match(/\d{2}:\d{2}/);
-      startTime = startTimeMatch?.[0];
-      endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
-      endTime = endTimeMatch?.[0];
-      const endDateDayMatch = endTimeString.match(/\d{1,2} /);
-      const endDateDay = endDateDayMatch?.[0];
-      const endDateMonthMatch = endTimeString.match(/^[A-Za-z]+/);
-      let endDateMonth = endDateMonthMatch?.[0];
-      //iif there is a match for a seperate date in the endTimeString, format endDateString correctly for parsing
-      if (endDateDay && endDateMonth) {
-        if (endDateMonth.length <= 3) {
-          endDateString = `${endDateMonth} ${endDateDay} ${endTime}`;
-        } else {
-          endDateMonth = endDateMonth.slice(0, 3);
-          endDateString = `${endDateMonth} ${endDateDay} ${endTime}`;
-        }
-      }
+    let startTime = startTimeMatch?.[0];
+    if (!startTime) {
+      startTime = "08:00";
     }
+    const startDateString = `${eventStartDate} ${startTime}`;
+    console.log(startDateString, "<<startDateString", startTime, "<<startTime");
+    const startDateTime = parse(startDateString, "MMM d HH:mm", new Date());
+    console.log(startDateTime, "<<startDateTime");
 
-    endDateString = `${eventStartDate} ${endTime}`;
+    //create fictituous endTime, event is assumed to end same day
 
-    let endDateTime = parse(endDateString, "MMM d HH:mm", new Date());
+    const parsedTime = parse(startTime, "HH:mm", new Date());
+    const endTimeString = addMinutes(parsedTime, 60).toString();
+    endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
+    const endTime = endTimeMatch?.[0];
+    const endDateString = `${eventStartDate} ${endTime}`;
+    const endDateTime = parse(endDateString, "MMM d HH:mm", new Date());
 
     const endFormatted = format(endDateTime, "MM/dd/yyyy hh:mm aa");
-
     const startFormatted = format(startDateTime, "MM/dd/yyyy hh:mm aa");
 
     return {
@@ -151,15 +121,16 @@ export default function EventCard({
           <div title="Add to Calendar" className="addeventatc">
             Add to Calendar
             <span className="start">
-              {formatDates({ eventDate: thisEvent.date }).startDate}
+              {formatDateInput({ eventDate: thisEvent.date }).startDate}
             </span>
             <span className="end">
-              {formatDates({ eventDate: thisEvent.date }).endDate}
+              {formatDateInput({ eventDate: thisEvent.date }).endDate}
             </span>
             <span className="timezone">Europe/London</span>
             <span className="title">{thisEvent.title}</span>
             <span className="description">
-              CHECK TIMINGS WITH ORGANISER: {thisEvent.description}
+              **CHECK ABOVE DATES/TIMES ARE CORRECT WITH ORGANISER AND AMEND AS
+              REQUIRED**{thisEvent.description}
             </span>
             <span className="location">
               {thisEvent.address[0]}, {thisEvent.address[1]}

@@ -27,7 +27,7 @@ export default function Page() {
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             <input
-              type="text"
+              type="password"
               id="password"
               placeholder="Password"
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"

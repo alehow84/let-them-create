@@ -25,13 +25,13 @@ export default function Page() {
     //   .then((data) => {
     //     setEvents(data);
     //     setIsLoading(false);
-    //     console.log(events, "<<events");
-    //   }).catch((error) => setError(error));
+    //   })
+    //   .catch((error) => setError(error));
 
     //comment the below 2 lines out when submitting project
     setEvents(eventsJson);
     setIsLoading(false);
-  }, [events]);
+  }, []);
 
   return (
     <>
