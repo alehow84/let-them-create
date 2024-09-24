@@ -20,6 +20,15 @@ import { format, parse, addMinutes } from "date-fns";
 import Link from "next/link";
 import EventCardButton from "./static/EventCardButton";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { db } from "../../firebaseConfig";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+
+/*
+In Events page, if user clicks register button and is not logged in, show error msg or creater alert prompting them to log in/ sign up
+//reference user from useAuth in this page 
+//
+*/
 
 export default function EventCard({
   thisEvent,
@@ -28,6 +37,8 @@ export default function EventCard({
   eventState: any;
 }) {
   const [currentEvent, setCurrentEvent] = useState<any>(null);
+  const { user } = useAuth();
+
   useEffect(() => {
     if (thisEvent) {
       setCurrentEvent(thisEvent);
@@ -37,6 +48,29 @@ export default function EventCard({
   type EventDate = {
     start_date: string;
     when: string;
+  };
+
+  const handleClick = async (e: any) => {
+    e.preventDefault();
+    try {
+      if (!user.uid) {
+        alert("Please Sign up or Log in to register for an event");
+      } else {
+        console.log(
+          thisEvent,
+          "<<thisEvent in else block (user logged in), EventCard"
+          //add the event information to the users events property
+        );
+
+        //this isnt working
+        const userDocRef = doc(db, "users", user.documentId);
+
+        await updateDoc(userDocRef, { events: arrayUnion(thisEvent) });
+        alert("You have registered for this event");
+      }
+    } catch (error) {
+      alert(`Something went wrong: ${error}`);
+    }
   };
 
   const formatDateInput = ({ eventDate }: { eventDate: EventDate }) => {
@@ -62,12 +96,9 @@ export default function EventCard({
       startTime = "08:00";
     }
     const startDateString = `${eventStartDate} ${startTime}`;
-    console.log(startDateString, "<<startDateString", startTime, "<<startTime");
     const startDateTime = parse(startDateString, "MMM d HH:mm", new Date());
-    console.log(startDateTime, "<<startDateTime");
 
-    //create fictituous endTime, event is assumed to end same day
-
+    //create fictituous endTime, event is assumed to end same day and last 1 hr
     const parsedTime = parse(startTime, "HH:mm", new Date());
     const endTimeString = addMinutes(parsedTime, 60).toString();
     endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
@@ -99,7 +130,6 @@ export default function EventCard({
                 <li>Event date: {thisEvent.date.when}</li>
                 <li>Venue: {thisEvent.venue.name}</li>
                 <li>Event location: {thisEvent.address[1]}</li>
-                {}
                 <li>Event Host: {thisEvent.ticket_info[0].source}</li>
                 <li className="text-blue w-fit p-1 rounded-lg hover:bg-slate hover:text-white">
                   <Link href={thisEvent.ticket_info[0].link}>Ticket info</Link>
@@ -117,7 +147,7 @@ export default function EventCard({
           </div>
         </div>
         <div className="flex justify-end mr-3">
-          <EventCardButton text="Register" />
+          <EventCardButton handleClick={handleClick} text="Register" />
           <div title="Add to Calendar" className="addeventatc">
             Add to Calendar
             <span className="start">
