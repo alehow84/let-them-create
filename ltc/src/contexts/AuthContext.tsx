@@ -7,12 +7,14 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { auth, db } from "../../firebaseConfig";
 
 // User data type interface
 interface UserType {
   email: string | null;
   uid: string | null;
+  documentId?: string | null;
 }
 
 // Create auth context
@@ -33,18 +35,28 @@ export const AuthContextProvider = ({
 
   // Update the state depending on auth
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log("Auth state changed:", user);
       if (user) {
-        setUser({
-          email: user.email,
-          uid: user.uid,
-        });
+        //look for users doc in user collection to access stored documentId to pass to userState accessible to app via AuthContext
+        const usersCollection = collection(db, "users");
+        const q = query(usersCollection, where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          setUser({
+            email: user.email,
+            uid: user.uid,
+            documentId: userDoc.id,
+          });
+        } else {
+          alert("No Matching user document found");
+        }
       } else {
-        setUser({ email: null, uid: null });
+        setUser({ email: null, uid: null, documentId: null });
       }
+      setLoading(false);
     });
-
-    setLoading(false);
 
     return () => unsubscribe();
   }, []);
@@ -54,20 +66,30 @@ export const AuthContextProvider = ({
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  //Update the user to include the users firebase document reference
+  const updateUserDocumentId = (documentId: string) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      documentId,
+    }));
+  };
+
   // Login the user
-  const logIn = (email: string, password: string) => {
+  const logIn = async (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Logout the user
   const logOut = async () => {
-    setUser({ email: null, uid: null });
+    setUser({ email: null, uid: null, documentId: null });
     return await signOut(auth);
   };
 
   // Wrap the children with the context provider
   return (
-    <AuthContext.Provider value={{ user, signUp, logIn, logOut, loading }}>
+    <AuthContext.Provider
+      value={{ user, signUp, logIn, logOut, loading, updateUserDocumentId }}
+    >
       {loading ? null : children}
     </AuthContext.Provider>
   );
