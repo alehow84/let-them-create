@@ -43,19 +43,15 @@ export default function EventCard({
   thisEvent: any;
   eventState: any;
 }) {
-  const [currentEvent, setCurrentEvent] = useState<any>(null);
+  const [currEvent, setCurrEvent] = useState<any>(null);
   const [eventRegBool, setEventRegBool] = useState<boolean>(false);
   const { user } = useAuth();
 
   useEffect(() => {
     if (thisEvent) {
-      setCurrentEvent(thisEvent);
+      setCurrEvent(thisEvent);
     }
   }, [thisEvent]);
-
-  useEffect(() => {
-    console.log("eventRegBool changed to:", eventRegBool);
-  }, [eventRegBool]);
 
   useEffect(() => {
     checkEventReg(user, thisEvent);
@@ -73,28 +69,19 @@ export default function EventCard({
 
       if (userDocSnap.exists()) {
         const userData = userDocSnap.data();
-        console.log(userData, "<<userData in checkEventReg");
         userData.events.forEach((event: Event) => {
           if (
             event.title === currentEvent.title &&
             event.date.when === currentEvent.date.when &&
             event.venue.name === currentEvent.venue.name
           ) {
-            console.log("Condition met, setting eventRegBool to true");
             setEventRegBool(true);
-            console.log(
-              "eventRegBool set as:",
-              eventRegBool,
-              "after change to true"
-            );
           }
         });
       }
     } catch (error) {
       alert(`Something went wrong: ${error}`);
     }
-
-    //change ref to user below
   };
 
   const handleRegisterClick = async (e: any) => {
@@ -114,6 +101,7 @@ export default function EventCard({
           } else {
             await updateDoc(userDocRef, { events: arrayUnion(thisEvent) });
           }
+          setEventRegBool(true);
           alert("You have registered for this event");
         }
       }
