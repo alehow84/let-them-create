@@ -1,20 +1,3 @@
-/*
--I think I will be able to reuse this element for 
-1.events list page
-2. user profile
-3. staff profile
- and will have to include all buttons, and use state to determine 
- a. what page is showing and therefore
- b. what buttons are rendered.
- - Look at BurgerMenu for inspiration
-*/
-
-/*
-
-make it so Add to Calendar button is only visible when user is a) logged in DONE
- and b) has signed up to an event
-
-*/
 "use client";
 
 import { format, parse, addMinutes } from "date-fns";
@@ -25,17 +8,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { db } from "../../firebaseConfig";
 import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 import { Event } from "@/types/EventTypes";
-
-/*
-In Events page, if user clicks register button and is not logged in, show error msg or creater alert prompting them to log in/ sign up
-//reference user from useAuth in this page 
-Add to Calendar Button
-- is there a disabled property on it? check AddEvents - no
--create a boolean state for eventRegistered that is updated when a function called checkEventRegisteration is invoked
-- checkEventRegistration will check the events property in the users document
-- for each object in the events array, it will check if the values for event title, event date.when and event venue are the same, and if so, will update the registered state to true, else false
-- add calendar button will only be rendered if the event has been registered for
-*/
 
 export default function EventCard({
   thisEvent,

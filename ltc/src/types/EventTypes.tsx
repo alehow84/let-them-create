@@ -11,7 +11,7 @@ interface TicketInfo {
   link_type: string;
 }
 
-interface Date {
+export interface Date {
   start_date: string;
   when: string | null;
 }
