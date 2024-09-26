@@ -17,7 +17,7 @@ export default function Page() {
 
   const [signUpError, setSignUpError] = useState<any>(null);
 
-  const { signUp } = useAuth();
+  const { signUp, updateUserDocumentId } = useAuth();
   const router = useRouter();
   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/gm;
 
@@ -50,7 +50,9 @@ export default function Page() {
           });
           //update doc with its own documentRefId to pass to the page it is directed to, this is working
           await updateDoc(docRef, { documentId: docRef.id });
-          //add a step in here to make the users docRef.id available in the AuthContext?
+          //add a step in here to make the users docRef.id available in the AuthContext
+          updateUserDocumentId(docRef.id);
+          console.log(user, "<<user in signup page");
           router.push(`/user-profile/${docRef.id}`);
         } catch (error: any) {
           setSignUpError(`Error creating user: ${error.message}`);
