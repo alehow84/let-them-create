@@ -13,6 +13,7 @@ import { auth } from "../../firebaseConfig";
 interface UserType {
   email: string | null;
   uid: string | null;
+  documentId?: string;
 }
 
 // Create auth context
@@ -54,6 +55,14 @@ export const AuthContextProvider = ({
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  //Update the user to include the users firebase document reference
+  const updateUserDocumentId = (documentId: string) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      documentId,
+    }));
+  };
+
   // Login the user
   const logIn = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);
@@ -67,7 +76,9 @@ export const AuthContextProvider = ({
 
   // Wrap the children with the context provider
   return (
-    <AuthContext.Provider value={{ user, signUp, logIn, logOut, loading }}>
+    <AuthContext.Provider
+      value={{ user, signUp, logIn, logOut, loading, updateUserDocumentId }}
+    >
       {loading ? null : children}
     </AuthContext.Provider>
   );

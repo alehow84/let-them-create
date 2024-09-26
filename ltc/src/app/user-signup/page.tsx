@@ -41,7 +41,6 @@ export default function Page() {
         const user = userCredentials.user;
 
         //2nd try/catch block dependent on outcome of successful signup - send new user details to firebase collection
-        //This is working, user being created in db
         try {
           const docRef = await addDoc(collection(db, "users"), {
             uid: user.uid,
@@ -51,6 +50,7 @@ export default function Page() {
           });
           //update doc with its own documentRefId to pass to the page it is directed to, this is working
           await updateDoc(docRef, { documentId: docRef.id });
+          //add a step in here to make the users docRef.id available in the AuthContext?
           router.push(`/user-profile/${docRef.id}`);
         } catch (error: any) {
           setSignUpError(`Error creating user: ${error.message}`);

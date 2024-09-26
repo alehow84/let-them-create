@@ -22,7 +22,7 @@ import EventCardButton from "./static/EventCardButton";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { db } from "../../firebaseConfig";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
 /*
 In Events page, if user clicks register button and is not logged in, show error msg or creater alert prompting them to log in/ sign up
@@ -50,9 +50,10 @@ export default function EventCard({
     when: string;
   };
 
-  const handleClick = async (e: any) => {
+  const handleRegisterClick = async (e: any) => {
     e.preventDefault();
     try {
+      //if user is not logged in
       if (!user.uid) {
         alert("Please Sign up or Log in to register for an event");
       } else {
@@ -63,10 +64,25 @@ export default function EventCard({
         );
 
         //this isnt working
+        //make a ref to the user doc
+        //first i need to lookup the user with
+        console.log(user, "<<user", user.documentId, "<<user.documentId");
         const userDocRef = doc(db, "users", user.documentId);
+        console.log(userDocRef, "<<userDocRef");
+        //get a snapshot of the userdoc
+        const userDocSnap = await getDoc(userDocRef);
+        console.log(userDocSnap.data(), "<<userDoc data");
 
-        await updateDoc(userDocRef, { events: arrayUnion(thisEvent) });
-        alert("You have registered for this event");
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+
+          if (!Array.isArray(userData?.events)) {
+            await updateDoc(userDocRef, { events: [thisEvent] });
+          } else {
+            await updateDoc(userDocRef, { events: arrayUnion(thisEvent) });
+          }
+          alert("You have registered for this event");
+        }
       }
     } catch (error) {
       alert(`Something went wrong: ${error}`);
@@ -147,7 +163,7 @@ export default function EventCard({
           </div>
         </div>
         <div className="flex justify-end mr-3">
-          <EventCardButton handleClick={handleClick} text="Register" />
+          <EventCardButton handleClick={handleRegisterClick} text="Register" />
           <div title="Add to Calendar" className="addeventatc">
             Add to Calendar
             <span className="start">

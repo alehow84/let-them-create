@@ -10,7 +10,7 @@ export default function Navbar() {
       <Searchbar />
       <Link
         href="/events"
-        className="text-white rounded-full hover:bg-sky hover:text-slate p-2 ml-4 transition ease-in-out duration-200"
+        className="text-white text-center rounded-full hover:bg-sky hover:text-slate p-2 ml-4 transition ease-in-out duration-200"
       >
         Browse events
       </Link>
