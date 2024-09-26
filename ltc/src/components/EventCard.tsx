@@ -10,8 +10,9 @@
 */
 
 /*
-- need to amend this so user can only register when logged in
--and so user can only see add to calendar button when they are registered for an event
+
+make it so Add to Calendar button is only visible when user is a) logged in DONE
+ and b) has signed up to an event
 
 */
 "use client";
@@ -23,11 +24,17 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { db } from "../../firebaseConfig";
 import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+import { Event } from "@/types/EventTypes";
 
 /*
 In Events page, if user clicks register button and is not logged in, show error msg or creater alert prompting them to log in/ sign up
 //reference user from useAuth in this page 
-//
+Add to Calendar Button
+- is there a disabled property on it? check AddEvents - no
+-create a boolean state for eventRegistered that is updated when a function called checkEventRegisteration is invoked
+- checkEventRegistration will check the events property in the users document
+- for each object in the events array, it will check if the values for event title, event date.when and event venue are the same, and if so, will update the registered state to true, else false
+- add calendar button will only be rendered if the event has been registered for
 */
 
 export default function EventCard({
@@ -36,42 +43,55 @@ export default function EventCard({
   thisEvent: any;
   eventState: any;
 }) {
-  const [currentEvent, setCurrentEvent] = useState<any>(null);
+  const [currEvent, setCurrEvent] = useState<any>(null);
+  const [eventRegBool, setEventRegBool] = useState<boolean>(false);
   const { user } = useAuth();
 
   useEffect(() => {
     if (thisEvent) {
-      setCurrentEvent(thisEvent);
+      setCurrEvent(thisEvent);
     }
   }, [thisEvent]);
+
+  useEffect(() => {
+    checkEventReg(user, thisEvent);
+  }, [eventRegBool]);
 
   type EventDate = {
     start_date: string;
     when: string;
   };
 
+  const checkEventReg = async (user: any, currentEvent: Event) => {
+    try {
+      const userDocRef = doc(db, "users", user.documentId);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        userData.events.forEach((event: Event) => {
+          if (
+            event.title === currentEvent.title &&
+            event.date.when === currentEvent.date.when &&
+            event.venue.name === currentEvent.venue.name
+          ) {
+            setEventRegBool(true);
+          }
+        });
+      }
+    } catch (error) {
+      alert(`Something went wrong: ${error}`);
+    }
+  };
+
   const handleRegisterClick = async (e: any) => {
     e.preventDefault();
     try {
-      //if user is not logged in
       if (!user.uid) {
         alert("Please Sign up or Log in to register for an event");
       } else {
-        console.log(
-          thisEvent,
-          "<<thisEvent in else block (user logged in), EventCard"
-          //add the event information to the users events property
-        );
-
-        //this isnt working
-        //make a ref to the user doc
-        //first i need to lookup the user with
-        console.log(user, "<<user", user.documentId, "<<user.documentId");
         const userDocRef = doc(db, "users", user.documentId);
-        console.log(userDocRef, "<<userDocRef");
-        //get a snapshot of the userdoc
         const userDocSnap = await getDoc(userDocRef);
-        console.log(userDocSnap.data(), "<<userDoc data");
 
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
@@ -81,6 +101,7 @@ export default function EventCard({
           } else {
             await updateDoc(userDocRef, { events: arrayUnion(thisEvent) });
           }
+          setEventRegBool(true);
           alert("You have registered for this event");
         }
       }
@@ -163,25 +184,32 @@ export default function EventCard({
           </div>
         </div>
         <div className="flex justify-end mr-3">
+          {eventRegBool ? (
+            <div
+              title="Add to Calendar"
+              className="addeventatc sm:w-auto p-2 sm:px-4"
+            >
+              Add to Calendar
+              <span className="start">
+                {formatDateInput({ eventDate: thisEvent.date }).startDate}
+              </span>
+              <span className="end">
+                {formatDateInput({ eventDate: thisEvent.date }).endDate}
+              </span>
+              <span className="timezone">Europe/London</span>
+              <span className="title">{thisEvent.title}</span>
+              <span className="description">
+                **CHECK ABOVE DATES/TIMES ARE CORRECT WITH ORGANISER AND AMEND
+                AS REQUIRED**{thisEvent.description}
+              </span>
+              <span className="location">
+                {thisEvent.address[0]}, {thisEvent.address[1]}
+              </span>
+            </div>
+          ) : (
+            <></>
+          )}
           <EventCardButton handleClick={handleRegisterClick} text="Register" />
-          <div title="Add to Calendar" className="addeventatc">
-            Add to Calendar
-            <span className="start">
-              {formatDateInput({ eventDate: thisEvent.date }).startDate}
-            </span>
-            <span className="end">
-              {formatDateInput({ eventDate: thisEvent.date }).endDate}
-            </span>
-            <span className="timezone">Europe/London</span>
-            <span className="title">{thisEvent.title}</span>
-            <span className="description">
-              **CHECK ABOVE DATES/TIMES ARE CORRECT WITH ORGANISER AND AMEND AS
-              REQUIRED**{thisEvent.description}
-            </span>
-            <span className="location">
-              {thisEvent.address[0]}, {thisEvent.address[1]}
-            </span>
-          </div>
         </div>
       </div>
     </div>

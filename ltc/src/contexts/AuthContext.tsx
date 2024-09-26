@@ -36,7 +36,6 @@ export const AuthContextProvider = ({
   // Update the state depending on auth
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("Auth state changed:", user);
       if (user) {
         //look for users doc in user collection to access stored documentId to pass to userState accessible to app via AuthContext
         const usersCollection = collection(db, "users");
