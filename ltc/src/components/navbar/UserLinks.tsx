@@ -15,7 +15,15 @@ export default function UserLinks() {
         <div className="flex items-center">
           <div className="flex flex-col items-center">
             <div className="hover:scale-110 transition ease-in-out duration-200">
-              <Image src={UserIcon} alt="Home" width={60} height={60} />
+              {user.email === process.env.NEXT_PUBLIC_STAFF_EMAIL ? (
+                <Link href="/staff-profile">
+                  <Image src={UserIcon} alt="Home" width={60} height={60} />
+                </Link>
+              ) : (
+                <Link href={`/user-profile${user.documentId}`}>
+                  <Image src={UserIcon} alt="Home" width={60} height={60} />
+                </Link>
+              )}
             </div>
             <p className="text-white text-xs">{user.email}</p>
           </div>
