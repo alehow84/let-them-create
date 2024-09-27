@@ -35,19 +35,34 @@ export const AuthContextProvider = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        //look for users doc in user collection to access stored documentId to pass to user State accessible to app via AuthContext
-        const usersCollection = collection(db, "users");
-        const q = query(usersCollection, where("uid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0];
-          setUser({
-            email: user.email,
-            uid: user.uid,
-            documentId: userDoc.id,
-          });
+        //first check if the user is staff
+        if (user.email === process.env.NEXT_PUBLIC_STAFF_EMAIL) {
+          const staffCollection = collection(db, "staff");
+          const q = query(staffCollection, where("uid", "==", user.uid));
+          const staffQuerySnapshot = await getDocs(q);
+          if (!staffQuerySnapshot.empty) {
+            const staffDoc = staffQuerySnapshot.docs[0];
+            setUser({
+              email: user.email,
+              uid: user.uid,
+              documentId: staffDoc.id,
+            });
+          }
         } else {
-          alert("No Matching user document found");
+          //look for users doc in user collection to access stored documentId to pass to user State accessible to app via AuthContext
+          const usersCollection = collection(db, "users");
+          const q = query(usersCollection, where("uid", "==", user.uid));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            setUser({
+              email: user.email,
+              uid: user.uid,
+              documentId: userDoc.id,
+            });
+          } else {
+            alert("No Matching user document found");
+          }
         }
       } else {
         setUser({ email: null, uid: null, documentId: null });

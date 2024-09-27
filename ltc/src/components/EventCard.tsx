@@ -9,6 +9,8 @@ import { db } from "../../firebaseConfig";
 import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 import { Event } from "@/types/EventTypes";
 
+//need to update so register button is only rendered for non staff users - not working
+
 export default function EventCard({
   thisEvent,
 }: {
@@ -17,6 +19,7 @@ export default function EventCard({
 }) {
   const [currEvent, setCurrEvent] = useState<any>(null);
   const [eventRegBool, setEventRegBool] = useState<boolean>(false);
+  const [staffUserBool, setStaffUserBool] = useState<boolean>(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -28,6 +31,10 @@ export default function EventCard({
   useEffect(() => {
     checkEventReg(user, thisEvent);
   }, [eventRegBool]);
+
+  useEffect(() => {
+    //check if the user is a staff member
+  }, []);
 
   type EventDate = {
     start_date: string;
@@ -50,6 +57,9 @@ export default function EventCard({
             setEventRegBool(true);
           }
         });
+      } else {
+        //assumes if userDocSnap doesn't exist, the user must be a staff member
+        setStaffUserBool(true);
       }
     } catch (error) {
       alert(`Something went wrong: ${error}`);
@@ -181,7 +191,14 @@ export default function EventCard({
           ) : (
             <></>
           )}
-          <EventCardButton handleClick={handleRegisterClick} text="Register" />
+          {staffUserBool ? (
+            <EventCardButton
+              handleClick={handleRegisterClick}
+              text="Register"
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

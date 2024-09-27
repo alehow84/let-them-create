@@ -21,8 +21,9 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 3)??possibly in a nested try catch block, then route to user-profile page
 */
 
+//User Login page
 export default function Page() {
-  const [userData, setUserData] = useState<LoginType>({
+  const [userCred, setUserCred] = useState<LoginType>({
     email: "",
     password: "",
   });
@@ -32,18 +33,18 @@ export default function Page() {
   const router = useRouter();
 
   const handleEmailChange = (e: any) => {
-    setUserData({ ...userData, email: e.target.value });
+    setUserCred({ ...userCred, email: e.target.value });
   };
 
   const handlePasswordChange = (e: any) => {
-    setUserData({ ...userData, password: e.target.value });
+    setUserCred({ ...userCred, password: e.target.value });
   };
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
       //login user - this works
-      const userCredentials = await logIn(userData.email, userData.password);
+      const userCredentials = await logIn(userCred.email, userCred.password);
       const user = userCredentials.user;
       try {
         //look up user in collection using their user uid - this works
@@ -58,11 +59,9 @@ export default function Page() {
         }
       } catch (error: any) {
         setLoginError(error.message);
-        console.log(error.message, "<<error2");
       }
     } catch (error: any) {
       setLoginError(error.message);
-      console.log(error.message, "<<error1");
     }
   };
 
