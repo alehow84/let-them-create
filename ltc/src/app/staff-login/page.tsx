@@ -2,6 +2,7 @@
 import Image from "next/image";
 import staffLogin from "../../../public/bg-images/staffLogin.jpg";
 import HomeButtonLogo from "../../components/HomeButtonLogo";
+import SubmitButton from "@/components/static/SubmitButton";
 import Link from "next/link";
 import { useState } from "react";
 import { LoginType } from "../../types/AuthTypes";
@@ -79,14 +80,14 @@ export default function Page() {
               id="email-address"
               placeholder="Email address"
               onChange={handleEmailChange}
-              className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
+              className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-slate"
             />
             <input
               type="password"
               id="password"
               placeholder="Password"
               onChange={handlePasswordChange}
-              className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
+              className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-slate"
             />
             {staffLoginError ? (
               <div className="text-center text-xs text-red-600 mx-auto border-0 w-1/2">
@@ -95,12 +96,7 @@ export default function Page() {
             ) : (
               <></>
             )}
-            <button
-              type="submit"
-              className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"
-            >
-              Submit
-            </button>
+            <SubmitButton text="Login" />
             <div className="mx-auto text-lg text-blue hover:text-slate ">
               <Link href="/user-login">User login</Link>
             </div>

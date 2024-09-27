@@ -21,7 +21,7 @@ export interface Event {
   date: Date;
   address: string[];
   description: string;
-  ticket_info: TicketInfo[];
+  ticket_info: TicketInfo[] | null;
   venue: Venue;
   thumbnail: string | null;
   image: string | null;

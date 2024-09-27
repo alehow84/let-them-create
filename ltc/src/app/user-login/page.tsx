@@ -3,6 +3,7 @@
 import Image from "next/image";
 import userLoginPic from "../../../public/bg-images/userLogin.jpg";
 import HomeButtonLogo from "../../components/HomeButtonLogo";
+import SubmitButton from "@/components/static/SubmitButton";
 import Link from "next/link";
 import { useState } from "react";
 import { LoginType } from "../../types/AuthTypes";
@@ -10,16 +11,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-
-/*
-? useState to create data using LoginType from AuthTypes as type inference
-- use logIn method from Authcontext
-- import router from next/navigation
-- create async handleLogin function that will
-1)prevent default
-2)try - await the outcome of logIn
-3)??possibly in a nested try catch block, then route to user-profile page
-*/
 
 //User Login page
 export default function Page() {
@@ -109,12 +100,7 @@ export default function Page() {
             ) : (
               <></>
             )}
-            <button
-              type="submit"
-              className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"
-            >
-              Submit
-            </button>
+            <SubmitButton text="Login" />
             <div className="mx-auto text-lg text-blue hover:text-slate">
               <Link href="/user-signup">Sign Up</Link>
             </div>

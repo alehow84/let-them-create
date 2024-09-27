@@ -33,7 +33,7 @@ export default function EventCard({
   }, [eventRegBool]);
 
   useEffect(() => {
-    //check if the user is a staff member
+    //check if the user is a staff member - can i create a new function and check as a side effect here?
   }, []);
 
   type EventDate = {
