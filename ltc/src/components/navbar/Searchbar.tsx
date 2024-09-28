@@ -17,7 +17,7 @@ export default function Searchbar() {
         <input
           type="text"
           placeholder="Search Events"
-          className="border-r border-solid focus:outline-none "
+          className="border-r-black border-l-white border-t-white border-b-white focus:outline-none"
         />
       </div>
       <div className="flex items-center pl-3">
@@ -37,7 +37,7 @@ export default function Searchbar() {
         <input
           type="text"
           placeholder="Choose location"
-          className="pl-1 focus:outline-none "
+          className="pl-1 focus:outline-none border-none"
         />
         <button
           type="submit"

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Logo from "../../../public/icons/Let them create Branding and planning.png";
+import Logo from "../../../public/icons/LTCLogo.png";
 import { Playpen_Sans } from "next/font/google";
 import Typing from "../Typing";
 

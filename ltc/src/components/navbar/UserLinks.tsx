@@ -16,7 +16,7 @@ export default function UserLinks() {
           <div className="flex flex-col items-center">
             <div className="hover:scale-110 transition ease-in-out duration-200">
               {user.email === process.env.NEXT_PUBLIC_STAFF_EMAIL ? (
-                <Link href="/staff-profile">
+                <Link href="/staff-home">
                   <Image src={UserIcon} alt="Home" width={60} height={60} />
                 </Link>
               ) : (

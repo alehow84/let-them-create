@@ -45,7 +45,7 @@ export default function Page() {
           console.log("there is a staff doc");
           const docId = staffDoc.data().documentId;
           updateUserDocumentId(docId);
-          router.push("/staff-profile");
+          router.push("/staff-home");
         } else {
           alert("No Matching staff user document found");
         }

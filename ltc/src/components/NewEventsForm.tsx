@@ -1,8 +1,72 @@
+"use client";
+
 import SubmitButton from "./static/SubmitButton";
+import eventThumbnail from "../../public/icons/eventThumbnail.svg";
+import { Event } from "../types/EventTypes";
+import { useState } from "react";
 
 export default function NewEventsForm() {
+  //   const [dateInput, setDateInput] = useState<string>("");
+  //   const [whenInput, setWhenInput] = useState<string>("");
+  //   const [dateErrorBool, setDateErrorBool] = useState<boolean>(false);
+
+  //   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     setDateInput(e.target.value);
+  //   };
+
+  //   const handleWhenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     setWhenInput(e.target.value);
+  //   };
+
+  const handleNewEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const thisEventTitle = formData.get("title") as string;
+    const startMonth = formData.get("start-date-month") as string;
+    const startDay = formData.get("start-date-day") as string;
+    const startDate = `${startMonth} ${startDay}`;
+    const startTime = formData.get("when-start");
+    const endTime = formData.get("when-end");
+    const thisWhen = `${startTime}–${endTime}`;
+    //below going into an array
+    const address = formData.get("address") as string;
+    //below going into an array
+    const ticketLink = formData.get("ticket_info_link") as string;
+    //below going into an object
+    const venueName = formData.get("venue-name") as string;
+    const thisDescription = formData.get("description") as string;
+
+    const newEvent: Event = {
+      title: thisEventTitle,
+      date: {
+        start_date: startDate,
+        when: thisWhen,
+      },
+      address: [address],
+      description: thisDescription,
+      ticket_info: [
+        {
+          source: "Let Them Create",
+          link: ticketLink,
+          link_type: "tickets",
+        },
+      ],
+      venue: {
+        name: venueName,
+        rating: null,
+        reviews: null,
+        link: null,
+      },
+      thumbnail: eventThumbnail,
+      image: null,
+    };
+  };
+
   return (
-    <form className="mt-8 mx-auto md:w-1/2">
+    <form className="mt-8 mx-auto w-10/12 md:w-1/2" onSubmit={handleNewEvent}>
+      <h1 className="text-center text-3xl text-slate py-2 mb-6">
+        Create a new event
+      </h1>
       <div className="md:grid md:grid-cols-2 md:gap-4">
         <div>
           <div className="flex flex-col mb-2">
@@ -14,28 +78,114 @@ export default function NewEventsForm() {
               name="title"
               type="text"
               placeholder="Pottery for cat lovers..."
+              required
               className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
             />
           </div>
           <div className="flex flex-col mb-2">
             <label htmlFor="start-date">Date</label>
-            <input
-              id="start-date"
-              name="start-date"
-              type="text"
-              placeholder="Oct 26"
-              className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
-            />
+            <div className="flex">
+              <select
+                name="start-date-month"
+                id="start-date-month"
+                className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
+              >
+                <option value="Jan">January</option>
+                <option value="Feb">February</option>
+                <option value="Mar">March</option>
+                <option value="Apr">April</option>
+                <option value="May">May</option>
+                <option value="Jun">June</option>
+                <option value="Jul">July</option>
+                <option value="Aug">August</option>
+                <option value="Sep">September</option>
+                <option value="Oct">October</option>
+                <option value="Nov">November</option>
+                <option value="Dec">December</option>
+              </select>
+              <select
+                name="start-date-day"
+                id="start-date-day"
+                className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
+                required
+              >
+                <option value="01">1</option>
+                <option value="02">2</option>
+                <option value="03">3</option>
+                <option value="04">4</option>
+                <option value="05">5</option>
+                <option value="06">6</option>
+                <option value="07">7</option>
+                <option value="08">8</option>
+                <option value="09">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+              </select>
+            </div>
           </div>
           <div className="flex flex-col mb-2">
-            <label htmlFor="when">Event Timings</label>
-            <input
-              id="when"
-              name="when"
-              type="text"
-              placeholder="10:00-12:00"
-              className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
-            />
+            <label htmlFor="when-start">Event Timings</label>
+            <div className="flex">
+              <select
+                name="when-start"
+                id="when-start"
+                className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
+              >
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+              </select>
+              <select
+                name="when-end"
+                id="when-end"
+                className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
+              >
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+              </select>
+            </div>
           </div>
         </div>
         <div>
@@ -45,6 +195,7 @@ export default function NewEventsForm() {
               id="address"
               name="address"
               type="text"
+              required
               placeholder="42 Craft Corner, Sometown"
               className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
             />
@@ -66,6 +217,7 @@ export default function NewEventsForm() {
               name="venue-name"
               type="text"
               placeholder="LTC HQ"
+              required
               className="py-2 px-6 max-w-md md:w-full text-ellipsis bg-white rounded-sm shadow-slate shadow-sm"
             />
           </div>
