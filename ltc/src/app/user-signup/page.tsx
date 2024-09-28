@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import HomeButtonLogo from "../../components/HomeButtonLogo";
+import SubmitButton from "@/components/static/SubmitButton";
 import Link from "next/link";
 import userSignUpPic from "../../../public/bg-images/userSignup.jpg";
 import { useState } from "react";
@@ -135,12 +136,7 @@ export default function Page() {
               <></>
             )}
 
-            <button
-              type="submit"
-              className="py-4 px-10 max-w-sm mx-auto text-white bg-orange shadow-md rounded-xl hover:bg-amber  hover:text-blue transition ease-in-out duration-200"
-            >
-              Submit
-            </button>
+            <SubmitButton text="Submit" />
             <div className="mx-auto text-lg text-blue hover:text-slate ">
               <Link href="/user-login">User login</Link>
             </div>
