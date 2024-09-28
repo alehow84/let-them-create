@@ -3,6 +3,8 @@
 import { format, parse, addMinutes } from "date-fns";
 import Link from "next/link";
 import EventCardButton from "./static/EventCardButton";
+import Check from "../../public/icons/check-solid.svg";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { db } from "../../firebaseConfig";
@@ -43,23 +45,28 @@ export default function EventCard({
 
   const checkEventReg = async (user: any, currentEvent: Event) => {
     try {
-      const userDocRef = doc(db, "users", user.documentId);
-      const userDocSnap = await getDoc(userDocRef);
+      console.log(user, "<<user");
+      if (user) {
+        const userDocRef = doc(db, "users", user.documentId);
+        const userDocSnap = await getDoc(userDocRef);
 
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        userData.events.forEach((event: Event) => {
-          if (
-            event.title === currentEvent.title &&
-            event.date.when === currentEvent.date.when &&
-            event.venue.name === currentEvent.venue.name
-          ) {
-            setEventRegBool(true);
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          if (userData.events) {
+            userData.events.forEach((event: Event) => {
+              if (
+                event.title === currentEvent.title &&
+                event.date.when === currentEvent.date.when &&
+                event.venue.name === currentEvent.venue.name
+              ) {
+                setEventRegBool(true);
+              }
+            });
           }
-        });
-      } else {
-        //assumes if userDocSnap doesn't exist, the user must be a staff member
-        setStaffUserBool(true);
+        } else {
+          //assumes if userDocSnap doesn't exist, the user must be a staff member
+          setStaffUserBool(true);
+        }
       }
     } catch (error) {
       alert(`Something went wrong: ${error}`);
@@ -89,6 +96,7 @@ export default function EventCard({
       }
     } catch (error) {
       alert(`Something went wrong: ${error}`);
+      console.log("Error in handleRegisterClick:", error);
     }
   };
 
@@ -191,11 +199,26 @@ export default function EventCard({
           ) : (
             <></>
           )}
-          {staffUserBool ? (
+          {!eventRegBool && !staffUserBool ? (
             <EventCardButton
               handleClick={handleRegisterClick}
               text="Register"
             />
+          ) : (
+            <></>
+          )}
+          {eventRegBool ? (
+            <div className="flex items-center text-white text-sm rounded-sm shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
+              <div className="mr-1">
+                <Image
+                  src={Check}
+                  height={12}
+                  width={12}
+                  alt="registered for event"
+                />
+              </div>{" "}
+              <div>Registered</div>
+            </div>
           ) : (
             <></>
           )}

@@ -49,7 +49,9 @@ export default function Page() {
         } else {
           alert("No Matching staff user document found");
         }
-      } catch (error: any) {}
+      } catch (error: any) {
+        setStaffLoginError(error.message);
+      }
     } catch (error: any) {
       setStaffLoginError(error.message);
     }

@@ -20,7 +20,7 @@ export default function UserLinks() {
                   <Image src={UserIcon} alt="Home" width={60} height={60} />
                 </Link>
               ) : (
-                <Link href={`/user-profile${user.documentId}`}>
+                <Link href={`/user-profile/${user.documentId}`}>
                   <Image src={UserIcon} alt="Home" width={60} height={60} />
                 </Link>
               )}

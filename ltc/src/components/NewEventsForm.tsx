@@ -25,7 +25,7 @@ export default function NewEventsForm() {
     const address = formData.get("address") as string;
     const ticketLink = "https://let-them-create.vercel.app/";
     const venueName = formData.get("venue-name") as string;
-    const thisDescription = formData.get("description") as string;
+    const newDescription = formData.get("description") as string;
 
     const newEvent: Event = {
       title: thisEventTitle,
@@ -34,7 +34,7 @@ export default function NewEventsForm() {
         when: thisWhen,
       },
       address: [address],
-      description: thisDescription,
+      description: newDescription,
       ticket_info: [
         {
           source: "Let Them Create",
@@ -51,6 +51,7 @@ export default function NewEventsForm() {
       thumbnail: eventThumbnail,
       image: null,
     };
+    e.currentTarget.reset();
     try {
       //check the logged in user is a staff member before attempting to create a new event
       if (user.email !== process.env.NEXT_PUBLIC_STAFF_EMAIL) {
@@ -241,6 +242,7 @@ export default function NewEventsForm() {
         <div className="py-2 px-4 mb-2 bg-white rounded-sm shadow-slate shadow-md border border-slate">
           <textarea
             id="description"
+            name="description"
             rows={6}
             className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 "
             placeholder="Activity, skill level, audience etc..."
