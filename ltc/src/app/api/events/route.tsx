@@ -5,7 +5,7 @@ import { getJson } from "serpapi";
 const getEvents = async () => {
   const params = {
     engine: "google_events",
-    q: `arts & crafts class`,
+    q: `arts & crafts class uk`,
     hl: "en",
     gl: "gb",
     api_key: process.env.NEXT_PUBLIC_SERPAPI_KEY,

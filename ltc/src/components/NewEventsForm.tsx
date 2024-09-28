@@ -31,7 +31,7 @@ export default function NewEventsForm() {
       title: thisEventTitle,
       date: {
         start_date: startDate,
-        when: thisWhen,
+        when: `${startDate}, ${thisWhen}`,
       },
       address: [address],
       description: newDescription,
@@ -48,7 +48,8 @@ export default function NewEventsForm() {
         reviews: null,
         link: null,
       },
-      thumbnail: eventThumbnail,
+      thumbnail:
+        "https://i.ibb.co/1bFPZkh/Let-them-create-Branding-and-planning.png",
       image: null,
     };
     e.currentTarget.reset();

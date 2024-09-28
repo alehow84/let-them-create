@@ -45,8 +45,7 @@ export default function EventCard({
 
   const checkEventReg = async (user: any, currentEvent: Event) => {
     try {
-      console.log(user, "<<user");
-      if (user) {
+      if (user && user.documentId) {
         const userDocRef = doc(db, "users", user.documentId);
         const userDocSnap = await getDoc(userDocRef);
 
@@ -69,7 +68,8 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      alert(`Something went wrong: ${error}`);
+      // alert(`Something went wrong: ${error}`);
+      console.log("Error in checkEventReg:", error);
     }
   };
 
@@ -95,7 +95,7 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      alert(`Something went wrong: ${error}`);
+      // alert(`Something went wrong: ${error}`);
       console.log("Error in handleRegisterClick:", error);
     }
   };
@@ -108,14 +108,24 @@ export default function EventCard({
     const startMonthMatch = eventDate.start_date?.match(/^[A-Za-z]+/);
 
     //handle making sure month abbrev is three chars long for parsing
-    if (startMonthMatch && startMonthMatch[0].length > 3) {
+    if (/^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date)) {
+      eventStartDate = eventDate.start_date;
+    } else if (
+      startMonthMatch &&
+      startMonthMatch[0].length > 3 &&
+      startMonthMatch[0].length > 5
+    ) {
       const truncEventStart = eventDate.start_date;
       const startDateBeg = truncEventStart.slice(0, 3);
       const startDateEnd = truncEventStart.slice(4);
       eventStartDate = startDateBeg + startDateEnd;
     } else if (startMonthMatch && startMonthMatch[0].length === 3) {
+      //here is the issue. need another condition checking for the "perfect startdate match"
       eventStartDate = startMonthMatch[0];
     }
+    // else if (/^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date)) {
+    //   eventStartDate = eventDate.start_date;
+    // }
     //update startTime
     startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
     let startTime = startTimeMatch?.[0];
@@ -131,6 +141,13 @@ export default function EventCard({
     endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
     const endTime = endTimeMatch?.[0];
     const endDateString = `${eventStartDate} ${endTime}`;
+    console.log(
+      "thisEvent:",
+      thisEvent,
+      "endDateString:",
+      endDateString,
+      /^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date)
+    );
     const endDateTime = parse(endDateString, "MMM d HH:mm", new Date());
 
     const endFormatted = format(endDateTime, "MM/dd/yyyy hh:mm aa");
@@ -155,7 +172,9 @@ export default function EventCard({
             <div className="flex text-xs pr-2">
               <ul className="text-slate-light">
                 <li>Event date: {thisEvent.date.when}</li>
-                <li>Venue: {thisEvent.venue.name}</li>
+                <li>
+                  Venue: {thisEvent.venue ? thisEvent.venue.name : "Unknown"}
+                </li>
                 <li>Event location: {thisEvent.address[1]}</li>
                 <li>Event Host: {thisEvent.ticket_info[0].source}</li>
                 <li className="text-blue w-fit p-1 rounded-lg hover:bg-slate hover:text-white">
@@ -177,7 +196,7 @@ export default function EventCard({
           {eventRegBool ? (
             <div
               title="Add to Calendar"
-              className="addeventatc sm:w-auto p-2 sm:px-4"
+              className="addeventatc w-auto p-2 px-4 md:w-auto"
             >
               Add to Calendar
               <span className="start">
@@ -208,7 +227,7 @@ export default function EventCard({
             <></>
           )}
           {eventRegBool ? (
-            <div className="flex items-center text-white text-sm rounded-sm shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
+            <div className="flex md:flex-col items-center text-white text-sm rounded-sm shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
               <div className="mr-1">
                 <Image
                   src={Check}
