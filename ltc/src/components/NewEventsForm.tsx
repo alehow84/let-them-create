@@ -3,22 +3,16 @@
 import SubmitButton from "./static/SubmitButton";
 import eventThumbnail from "../../public/icons/eventThumbnail.svg";
 import { Event } from "../types/EventTypes";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
+import { db } from "../../firebaseConfig";
+import { getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 export default function NewEventsForm() {
-  //   const [dateInput, setDateInput] = useState<string>("");
-  //   const [whenInput, setWhenInput] = useState<string>("");
-  //   const [dateErrorBool, setDateErrorBool] = useState<boolean>(false);
+  const [eventCreateErr, setEventCreateErr] = useState<any>(null);
+  const { user } = useAuth();
 
-  //   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setDateInput(e.target.value);
-  //   };
-
-  //   const handleWhenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setWhenInput(e.target.value);
-  //   };
-
-  const handleNewEvent = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNewEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const thisEventTitle = formData.get("title") as string;
@@ -28,11 +22,8 @@ export default function NewEventsForm() {
     const startTime = formData.get("when-start");
     const endTime = formData.get("when-end");
     const thisWhen = `${startTime}–${endTime}`;
-    //below going into an array
     const address = formData.get("address") as string;
-    //below going into an array
-    const ticketLink = formData.get("ticket_info_link") as string;
-    //below going into an object
+    const ticketLink = "https://let-them-create.vercel.app/";
     const venueName = formData.get("venue-name") as string;
     const thisDescription = formData.get("description") as string;
 
@@ -60,6 +51,28 @@ export default function NewEventsForm() {
       thumbnail: eventThumbnail,
       image: null,
     };
+    try {
+      //check the logged in user is a staff member before attempting to create a new event
+      if (user.email !== process.env.NEXT_PUBLIC_STAFF_EMAIL) {
+        alert("Please Log in as a staff member to create a new event");
+      } else {
+        const staffDocRef = doc(db, "staff", user.documentId);
+        const staffDocSnap = await getDoc(staffDocRef);
+        //check the staffDoc can be found before attempting to update it
+        if (staffDocSnap.exists()) {
+          const staffData = staffDocSnap.data();
+          if (!Array.isArray(staffData?.events)) {
+            await updateDoc(staffDocRef, { events: [newEvent] });
+          } else {
+            await updateDoc(staffDocRef, { events: arrayUnion(newEvent) });
+          }
+          alert("Success: new event created!");
+        }
+      }
+    } catch (error: any) {
+      setEventCreateErr(error.message);
+      alert(error.message);
+    }
   };
 
   return (
