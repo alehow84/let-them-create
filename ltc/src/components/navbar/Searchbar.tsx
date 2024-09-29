@@ -1,3 +1,6 @@
+/*
+Not yet functional - this will act as a filter of the events and will update the fetch request with the users queries
+*/
 export default function Searchbar() {
   return (
     <form action="" className="flex p-2 bg-white w-fit h-fit rounded-full">
@@ -16,6 +19,8 @@ export default function Searchbar() {
         </svg>
         <input
           type="text"
+          id="event-filter"
+          name="event-filter"
           placeholder="Search Events"
           className="border-r-black border-l-white border-t-white border-b-white focus:outline-none"
         />
@@ -37,6 +42,8 @@ export default function Searchbar() {
         <input
           type="text"
           placeholder="Choose location"
+          id="location-filter"
+          name="location-filter"
           className="pl-1 focus:outline-none border-none"
         />
         <button
