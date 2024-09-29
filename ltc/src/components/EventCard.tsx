@@ -30,7 +30,7 @@ export default function EventCard({
 
   useEffect(() => {
     checkEventReg(user, thisEvent);
-  }, [eventRegBool]);
+  }, [user, thisEvent, eventRegBool]);
 
   type EventDate = {
     start_date: string;

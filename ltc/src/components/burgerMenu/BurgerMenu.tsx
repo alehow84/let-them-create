@@ -20,7 +20,7 @@ export default function BurgerMenu() {
     return () => {
       window.removeEventListener("resize", exitMenu);
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, exitMenu]);
 
   return (
     <div className="md:hidden">

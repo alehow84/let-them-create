@@ -75,7 +75,8 @@ export default function Page() {
           {error ? (
             <div className="mx-auto text-xl text-center">
               <p>
-                Sorry, we're having problems! Please refresh or try again later.
+                Sorry, we are having problems! Please refresh or try again
+                later.
               </p>
               <p>Error: {error.message}</p>
             </div>
