@@ -49,7 +49,7 @@ export default function Page() {
           isLoading || error ? "flex items-center justify-center" : ""
         }`}
       >
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 mb-8 justify-center items-center">
+        <div className="grid grid-cols-1 w-10/12 md:w-11/12 md:mx-auto md:grid-cols-4 md:auto-rows-fr gap-6 mt-8 mb-8 justify-center items-center">
           {events && !isLoading
             ? events.map((event: any, index: number) => (
                 <EventCard thisEvent={event} eventState={events} key={index} />
