@@ -35,22 +35,25 @@ export default function Page() {
     e.preventDefault();
     try {
       //login user - this works
-      const userCredentials = await logIn(userCred.email, userCred.password);
-      const user = userCredentials.user;
-      try {
-        //look up user in collection using their user uid - this works
-        const usersCollection = collection(db, "users");
-        const q = query(usersCollection, where("uid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        const userDoc = querySnapshot.docs[0];
-        // if their is a userDoc, get the docRef id and use this to navigate to user-profile - this works
-        if (userDoc) {
-          const docId = userDoc.data().documentId;
-          router.push(`/user-profile/${docId}`);
-        }
-      } catch (error: any) {
-        setLoginError(error.message);
-      }
+      await logIn(userCred.email, userCred.password);
+      router.push(`/events`);
+
+      // const userCredentials = await logIn(userCred.email, userCred.password);
+      // const user = userCredentials.user;
+      // try {
+      //   //look up user in collection using their user uid - this works
+      //   const usersCollection = collection(db, "users");
+      //   const q = query(usersCollection, where("uid", "==", user.uid));
+      //   const querySnapshot = await getDocs(q);
+      //   const userDoc = querySnapshot.docs[0];
+      //   // if their is a userDoc, get the docRef id and use this to navigate to user-profile - this works
+      //   if (userDoc) {
+      //     const docId = userDoc.data().documentId;
+      //     router.push(`/user-profile/${docId}`);
+      //   }
+      // } catch (error: any) {
+      //   setLoginError(error.message);
+      // }
     } catch (error: any) {
       setLoginError(error.message);
     }

@@ -54,7 +54,7 @@ export default function EventCard({
               if (
                 event.title === currentEvent.title &&
                 event.date.when === currentEvent.date.when &&
-                event.venue.name === currentEvent.venue.name
+                event.address[0] === currentEvent.address[0]
               ) {
                 setEventRegBool(true);
               }
@@ -66,7 +66,7 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      alert(`Something went wrong: ${error}`);
+      alert(`Something went wrong: ${error}. Please contact admin`);
       // console.log("Error in checkEventReg:", error);
     }
   };
@@ -93,7 +93,7 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      alert(`Something went wrong: ${error}`);
+      alert(`Something went wrong: ${error}. Please contact admin`);
       // console.log("Error in handleRegisterClick:", error);
     }
   };
@@ -118,6 +118,7 @@ export default function EventCard({
       eventStartDate = `${startDateBeg}0${startDateDay}`;
     } else if (
       //check for api cases where start month is 3+ chars and over 5 chars so as not to match "perfect" start_date format i.e. 4 char month, single digit day
+      //don't like this condition
       startMonthMatch &&
       startMonthMatch[0].length > 3 &&
       startMonthMatch[0].length > 5
@@ -126,6 +127,12 @@ export default function EventCard({
       const startDateBeg = truncEventStart.slice(0, 3);
       const startDateEnd = truncEventStart.slice(4);
       eventStartDate = startDateBeg + startDateEnd;
+    } else if (/^[A-Za-z]{4} \d{2}$/.test(eventDate.start_date)) {
+      const startDateBegMatch = eventDate.start_date.match(/^[A-Za-z]{4} /);
+      let startDateBeg = startDateBegMatch?.[0];
+      startDateBeg = startDateBeg?.slice(0, 3);
+      const startDateEnd = eventDate.start_date.slice(4);
+      eventStartDate = `${startDateBeg}${startDateEnd}`;
     }
     // else if (startMonthMatch && startMonthMatch[0].length === 3) {
     //   console.log("4th condition met");
@@ -186,7 +193,10 @@ export default function EventCard({
               <ul className="text-slate-light">
                 <li>Event date: {thisEvent.date.when}</li>
                 <li>
-                  Venue: {thisEvent.venue ? thisEvent.venue.name : "Unknown"}
+                  Venue:{" "}
+                  {thisEvent.venue
+                    ? thisEvent.venue.name
+                    : "Please check with event host"}
                 </li>
                 <li>Event location: {thisEvent.address[1]}</li>
                 <li>Event Host: {thisEvent.ticket_info[0].source}</li>
