@@ -49,7 +49,7 @@ export default function NewEventsForm() {
         link: null,
       },
       thumbnail:
-        "https://i.ibb.co/1bFPZkh/Let-them-create-Branding-and-planning.png",
+        "https://i.ibb.co/qgzTwN4/Let-them-create-Branding-and-planning-1.png",
       image: null,
     };
     e.currentTarget.reset();
