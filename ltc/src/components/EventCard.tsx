@@ -144,23 +144,9 @@ export default function EventCard({
     endTimeMatch = endTimeString.match(/\d{2}:\d{2}/);
     const endTime = endTimeMatch?.[0];
     const endDateString = `${eventStartDate} ${endTime}`;
-    console.log(
-      "thisEvent:",
-      thisEvent,
-      "endDateString:",
-      endDateString,
-      /^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date)
-    );
+
     const endDateTime = parse(endDateString, "MMM d HH:mm", new Date());
-    console.log(
-      "thisEvent:",
-      thisEvent,
-      "endDateString:",
-      endDateString,
-      /^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date),
-      "endDateTime:",
-      endDateTime
-    );
+
     const endFormatted = format(endDateTime, "MM/dd/yyyy hh:mm aa");
     const startFormatted = format(startDateTime, "MM/dd/yyyy hh:mm aa");
 

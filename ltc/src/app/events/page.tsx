@@ -7,13 +7,6 @@ import EventCard from "@/components/EventCard";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import eventsJson from "../events.json";
-
-/*
--here i will make a call to the serpApi and will render all events
--The component will also check for events the staff user has created and will render those if available
-
-*/
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,31 +40,28 @@ export default function Page() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("events:", events);
-  }, [events]);
   return (
     <>
       <Navbar />
       <BurgerMenu />
-      <main className="h-auto min-h-dvh container mx-auto flex items-center">
+      <main
+        className={`h-auto min-h-dvh container mx-auto ${
+          isLoading || error ? "flex items-center justify-center" : ""
+        }`}
+      >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 mb-8 justify-center items-center">
-          {events && !isLoading ? (
-            events.map((event: any, index: number) => (
-              <EventCard thisEvent={event} eventState={events} key={index} />
-            ))
-          ) : (
-            <></>
-          )}
+          {events && !isLoading
+            ? events.map((event: any, index: number) => (
+                <EventCard thisEvent={event} eventState={events} key={index} />
+              ))
+            : null}
           {isLoading ? (
-            <div className="mx-auto">
-              <div className="mx-auto text-xl text-center">
-                Loading events ...
-              </div>
+            // <div className="mx-auto">
+            <div className="mx-auto text-xl text-center">
+              Loading events ...
             </div>
-          ) : (
-            <></>
-          )}
+          ) : // </div>
+          null}
           {error ? (
             <div className="mx-auto text-xl text-center">
               <p>

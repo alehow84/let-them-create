@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/contexts/AuthContext";
@@ -19,11 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={hind.className}>
-        <script
-          type="text/javascript"
+        <Script
           src="https://cdn.addevent.com/libs/atc/1.6.1/atc.min.js"
-          async
-          defer
+          strategy="lazyOnload"
         />
         <AuthContextProvider>
           <GlobalStateProvider>{children}</GlobalStateProvider>
