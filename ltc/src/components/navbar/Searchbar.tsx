@@ -1,4 +1,12 @@
+import { useSearch } from "@/contexts/SearchContext";
+
 export default function Searchbar() {
+  // const { searchInput, setSearchInput } = useSearch();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // setSearchInput(e.target.value);
+  };
+
   return (
     <form action="" className="flex p-2 bg-white w-fit h-fit rounded-full">
       <div className="flex items-center">
@@ -16,12 +24,16 @@ export default function Searchbar() {
         </svg>
         <input
           type="text"
+          id="event-filter"
+          name="event-filter"
           placeholder="Search Events"
+          // value={}
           className="border-r-black border-l-white border-t-white border-b-white focus:outline-none"
+          // onChange={handleChange}
         />
       </div>
       <div className="flex items-center pl-3">
-        <svg
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
@@ -37,8 +49,12 @@ export default function Searchbar() {
         <input
           type="text"
           placeholder="Choose location"
+          id="location-filter"
+          name="location-filter"
+          value={searchInput["location-filter"] || ""}
           className="pl-1 focus:outline-none border-none"
-        />
+          onChange={handleChange}
+        /> */}
         <button
           type="submit"
           className="bg-orange-light rounded-full p-2 hover:bg-slate hover:text-white transition ease-in-out duration-200"
