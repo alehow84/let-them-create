@@ -9,8 +9,6 @@ import { useState } from "react";
 import { LoginType } from "../../types/AuthTypes";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { db } from "../../../firebaseConfig";
-import { collection, getDocs, query, where } from "firebase/firestore";
 
 //User Login page
 export default function Page() {
@@ -34,26 +32,8 @@ export default function Page() {
   const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
-      //login user - this works
       await logIn(userCred.email, userCred.password);
       router.push(`/events`);
-
-      // const userCredentials = await logIn(userCred.email, userCred.password);
-      // const user = userCredentials.user;
-      // try {
-      //   //look up user in collection using their user uid - this works
-      //   const usersCollection = collection(db, "users");
-      //   const q = query(usersCollection, where("uid", "==", user.uid));
-      //   const querySnapshot = await getDocs(q);
-      //   const userDoc = querySnapshot.docs[0];
-      //   // if their is a userDoc, get the docRef id and use this to navigate to user-profile - this works
-      //   if (userDoc) {
-      //     const docId = userDoc.data().documentId;
-      //     router.push(`/user-profile/${docId}`);
-      //   }
-      // } catch (error: any) {
-      //   setLoginError(error.message);
-      // }
     } catch (error: any) {
       setLoginError(error.message);
     }

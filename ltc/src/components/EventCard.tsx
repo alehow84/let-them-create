@@ -32,10 +32,6 @@ export default function EventCard({
     checkEventReg(user, thisEvent);
   }, [eventRegBool]);
 
-  useEffect(() => {
-    //check if the user is a staff member - can i create a new function and check as a side effect here?
-  }, []);
-
   type EventDate = {
     start_date: string;
     when: string;
@@ -134,11 +130,6 @@ export default function EventCard({
       const startDateEnd = eventDate.start_date.slice(4);
       eventStartDate = `${startDateBeg}${startDateEnd}`;
     }
-    // else if (startMonthMatch && startMonthMatch[0].length === 3) {
-    //   console.log("4th condition met");
-    //   eventStartDate = startMonthMatch[0];
-    // }
-
     startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
     let startTime = startTimeMatch?.[0];
     if (!startTime) {
@@ -248,7 +239,7 @@ export default function EventCard({
             <></>
           )}
           {eventRegBool ? (
-            <div className="flex md:flex-col text-white text-sm rounded-full shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
+            <div className="flex items-center text-white text-sm rounded-full shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
               <div className="mr-1 min-w-sm">
                 <Image
                   src={Check}
@@ -257,7 +248,6 @@ export default function EventCard({
                   alt="registered for event"
                 />
               </div>{" "}
-              {/* <div>Registered</div> */}
             </div>
           ) : (
             <></>

@@ -1,7 +1,6 @@
 "use client";
 
 import SubmitButton from "./static/SubmitButton";
-import eventThumbnail from "../../public/icons/eventThumbnail.svg";
 import { Event } from "../types/EventTypes";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
@@ -49,7 +48,7 @@ export default function NewEventsForm() {
         link: null,
       },
       thumbnail:
-        "https://i.ibb.co/qgzTwN4/Let-them-create-Branding-and-planning-1.png",
+        "https://i.ibb.co/tqNx4LN/Let-them-create-Branding-and-planning-2.png",
       image: null,
     };
     e.currentTarget.reset();
