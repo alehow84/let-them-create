@@ -32,10 +32,6 @@ export default function EventCard({
     checkEventReg(user, thisEvent);
   }, [eventRegBool]);
 
-  useEffect(() => {
-    //check if the user is a staff member - can i create a new function and check as a side effect here?
-  }, []);
-
   type EventDate = {
     start_date: string;
     when: string;
@@ -54,7 +50,7 @@ export default function EventCard({
               if (
                 event.title === currentEvent.title &&
                 event.date.when === currentEvent.date.when &&
-                event.venue.name === currentEvent.venue.name
+                event.address[0] === currentEvent.address[0]
               ) {
                 setEventRegBool(true);
               }
@@ -66,7 +62,7 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      alert(`Something went wrong: ${error}`);
+      alert(`Something went wrong: ${error}. Please contact admin`);
       // console.log("Error in checkEventReg:", error);
     }
   };
@@ -93,7 +89,7 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      alert(`Something went wrong: ${error}`);
+      alert(`Something went wrong: ${error}. Please contact admin`);
       // console.log("Error in handleRegisterClick:", error);
     }
   };
@@ -118,6 +114,7 @@ export default function EventCard({
       eventStartDate = `${startDateBeg}0${startDateDay}`;
     } else if (
       //check for api cases where start month is 3+ chars and over 5 chars so as not to match "perfect" start_date format i.e. 4 char month, single digit day
+      //don't like this condition
       startMonthMatch &&
       startMonthMatch[0].length > 3 &&
       startMonthMatch[0].length > 5
@@ -126,12 +123,13 @@ export default function EventCard({
       const startDateBeg = truncEventStart.slice(0, 3);
       const startDateEnd = truncEventStart.slice(4);
       eventStartDate = startDateBeg + startDateEnd;
+    } else if (/^[A-Za-z]{4} \d{2}$/.test(eventDate.start_date)) {
+      const startDateBegMatch = eventDate.start_date.match(/^[A-Za-z]{4} /);
+      let startDateBeg = startDateBegMatch?.[0];
+      startDateBeg = startDateBeg?.slice(0, 3);
+      const startDateEnd = eventDate.start_date.slice(4);
+      eventStartDate = `${startDateBeg}${startDateEnd}`;
     }
-    // else if (startMonthMatch && startMonthMatch[0].length === 3) {
-    //   console.log("4th condition met");
-    //   eventStartDate = startMonthMatch[0];
-    // }
-
     startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
     let startTime = startTimeMatch?.[0];
     if (!startTime) {
@@ -186,7 +184,10 @@ export default function EventCard({
               <ul className="text-slate-light">
                 <li>Event date: {thisEvent.date.when}</li>
                 <li>
-                  Venue: {thisEvent.venue ? thisEvent.venue.name : "Unknown"}
+                  Venue:{" "}
+                  {thisEvent.venue
+                    ? thisEvent.venue.name
+                    : "Please check with event host"}
                 </li>
                 <li>Event location: {thisEvent.address[1]}</li>
                 <li>Event Host: {thisEvent.ticket_info[0].source}</li>
@@ -220,7 +221,10 @@ export default function EventCard({
                 AS REQUIRED**{thisEvent.description}
               </span>
               <span className="location">
-                {thisEvent.address[0]}, {thisEvent.address[1]}
+                {thisEvent.address[0]}, {thisEvent.address[1]}{" "}
+                {thisEvent.address[0] && thisEvent.address[1]
+                  ? `${thisEvent.address[0]}, ${thisEvent.address[1]}`
+                  : "Please check with event host"}
               </span>
             </div>
           ) : (
@@ -235,7 +239,7 @@ export default function EventCard({
             <></>
           )}
           {eventRegBool ? (
-            <div className="flex md:flex-col text-white text-sm rounded-full shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
+            <div className="flex items-center text-white text-sm rounded-full shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
               <div className="mr-1 min-w-sm">
                 <Image
                   src={Check}
@@ -244,7 +248,6 @@ export default function EventCard({
                   alt="registered for event"
                 />
               </div>{" "}
-              <div>Registered</div>
             </div>
           ) : (
             <></>

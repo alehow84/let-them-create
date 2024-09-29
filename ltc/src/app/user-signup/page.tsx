@@ -53,8 +53,7 @@ export default function Page() {
           await updateDoc(docRef, { documentId: docRef.id });
           //add a step in here to make the users docRef.id available in the AuthContext
           updateUserDocumentId(docRef.id);
-          console.log(user, "<<user in signup page");
-          router.push(`/user-profile/${docRef.id}`);
+          router.push("/events");
         } catch (error: any) {
           setSignUpError(`Error creating user: ${error.message}`);
         }
@@ -130,7 +129,7 @@ export default function Page() {
             )}
             {signUpError ? (
               <div className="text-center text-xs text-red-600 mx-auto border-0 md:w-1/2">
-                {signUpError}
+                Something went wrong: {signUpError}
               </div>
             ) : (
               <></>

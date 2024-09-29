@@ -33,7 +33,6 @@ export default function Page() {
         const staffDocSnap = await getDoc(staffDocRef);
         if (staffDocSnap.exists()) {
           const firestoreEvents = staffDocSnap.data().events;
-          //will this work? they are already arrays
           setEvents([...apiEvents, ...firestoreEvents]);
           setIsLoading(false);
         } else {
