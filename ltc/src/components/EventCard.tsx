@@ -11,8 +11,6 @@ import { db } from "../../firebaseConfig";
 import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 import { Event } from "@/types/EventTypes";
 
-//need to update so register button is only rendered for non staff users - not working
-
 export default function EventCard({
   thisEvent,
 }: {
@@ -68,8 +66,8 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      // alert(`Something went wrong: ${error}`);
-      console.log("Error in checkEventReg:", error);
+      alert(`Something went wrong: ${error}`);
+      // console.log("Error in checkEventReg:", error);
     }
   };
 
@@ -95,8 +93,8 @@ export default function EventCard({
         }
       }
     } catch (error) {
-      // alert(`Something went wrong: ${error}`);
-      console.log("Error in handleRegisterClick:", error);
+      alert(`Something went wrong: ${error}`);
+      // console.log("Error in handleRegisterClick:", error);
     }
   };
 
@@ -107,10 +105,19 @@ export default function EventCard({
     let endTimeMatch = null;
     const startMonthMatch = eventDate.start_date?.match(/^[A-Za-z]+/);
 
-    //handle making sure month abbrev is three chars long for parsing
+    //check for "perfect" start_date format i.e. Oct 22, can be passed straight to eventStartDate
     if (/^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date)) {
       eventStartDate = eventDate.start_date;
+    } else if (/^[A-Za-z]{3} \d{1}$/.test(eventDate.start_date)) {
+      //check for strictly for 3 char month followed by single digit date in start_date
+      const startDateBegMatch = eventDate.start_date.match(/^[A-Za-z]{3} /);
+      const startDateBeg = startDateBegMatch?.[0];
+      const startDateDayMatch = eventDate.start_date.match(/ \d{1}$/);
+      let startDateDay = startDateDayMatch?.[0];
+      startDateDay = startDateDay?.slice(1);
+      eventStartDate = `${startDateBeg}0${startDateDay}`;
     } else if (
+      //check for api cases where start month is 3+ chars and over 5 chars so as not to match "perfect" start_date format i.e. 4 char month, single digit day
       startMonthMatch &&
       startMonthMatch[0].length > 3 &&
       startMonthMatch[0].length > 5
@@ -119,14 +126,12 @@ export default function EventCard({
       const startDateBeg = truncEventStart.slice(0, 3);
       const startDateEnd = truncEventStart.slice(4);
       eventStartDate = startDateBeg + startDateEnd;
-    } else if (startMonthMatch && startMonthMatch[0].length === 3) {
-      //here is the issue. need another condition checking for the "perfect startdate match"
-      eventStartDate = startMonthMatch[0];
     }
-    // else if (/^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date)) {
-    //   eventStartDate = eventDate.start_date;
+    // else if (startMonthMatch && startMonthMatch[0].length === 3) {
+    //   console.log("4th condition met");
+    //   eventStartDate = startMonthMatch[0];
     // }
-    //update startTime
+
     startTimeMatch = eventDate.when.match(/\d{2}:\d{2}/);
     let startTime = startTimeMatch?.[0];
     if (!startTime) {
@@ -149,7 +154,15 @@ export default function EventCard({
       /^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date)
     );
     const endDateTime = parse(endDateString, "MMM d HH:mm", new Date());
-
+    console.log(
+      "thisEvent:",
+      thisEvent,
+      "endDateString:",
+      endDateString,
+      /^[A-Za-z]{3} \d{2}$/.test(eventDate.start_date),
+      "endDateTime:",
+      endDateTime
+    );
     const endFormatted = format(endDateTime, "MM/dd/yyyy hh:mm aa");
     const startFormatted = format(startDateTime, "MM/dd/yyyy hh:mm aa");
 
@@ -164,7 +177,7 @@ export default function EventCard({
   }
 
   return (
-    <div className="h-full w-full bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-110 transition duration-150 ease-in-out ">
+    <div className="flex items-center h-full w-full bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-110 transition duration-150 ease-in-out ">
       <div className="flex flex-col h-full">
         <div className="flex h-4/5">
           <div className="w-3/4 ml-2 pl-2">
@@ -184,12 +197,7 @@ export default function EventCard({
             </div>
           </div>
           <div className="w-20 h-20">
-            <img
-              src={thisEvent.thumbnail}
-              alt={thisEvent.title}
-              object-cover
-              rounded-full
-            />
+            <img src={thisEvent.thumbnail} alt={thisEvent.title} rounded-full />
           </div>
         </div>
         <div className="flex justify-end mr-3">
@@ -227,12 +235,12 @@ export default function EventCard({
             <></>
           )}
           {eventRegBool ? (
-            <div className="flex md:flex-col items-center text-white text-sm rounded-sm shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
-              <div className="mr-1">
+            <div className="flex md:flex-col text-white text-sm rounded-full shadow-lg bg-emerald-600 pr-2 pl-2 hover:bg-sky hover:text-slate transition duration-150 ease-in-out ml-5 w-fit p-2">
+              <div className="mr-1 min-w-sm">
                 <Image
                   src={Check}
-                  height={12}
-                  width={12}
+                  height={20}
+                  width={20}
                   alt="registered for event"
                 />
               </div>{" "}
