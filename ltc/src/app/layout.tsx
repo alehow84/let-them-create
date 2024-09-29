@@ -4,7 +4,6 @@ import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/contexts/AuthContext";
 import { GlobalStateProvider } from "@/contexts/GlobalStateContext";
-import { SearchProvider } from "@/contexts/SearchContext";
 
 const hind = Hind_Siliguri({ weight: "500", subsets: ["bengali"] });
 
@@ -26,9 +25,7 @@ export default function RootLayout({
           strategy="lazyOnload"
         />
         <AuthContextProvider>
-          <GlobalStateProvider>
-            <SearchProvider>{children}</SearchProvider>
-          </GlobalStateProvider>
+          <GlobalStateProvider>{children}</GlobalStateProvider>
         </AuthContextProvider>
       </body>
     </html>

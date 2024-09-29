@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getJson } from "serpapi";
-import { useSearch } from "@/contexts/SearchContext";
 
 //define function to request info from
 const getEvents = async () => {
@@ -25,10 +24,5 @@ const getEvents = async () => {
 
 //nextjs route handles function as a GET request
 export async function GET() {
-  // const { searchInput } = useSearch();
   return getEvents();
 }
-
-/*
-{ userQuery: searchInput }
-*/
