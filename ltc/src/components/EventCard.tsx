@@ -230,7 +230,10 @@ export default function EventCard({
                 AS REQUIRED**{thisEvent.description}
               </span>
               <span className="location">
-                {thisEvent.address[0]}, {thisEvent.address[1]}
+                {thisEvent.address[0]}, {thisEvent.address[1]}{" "}
+                {thisEvent.address[0] && thisEvent.address[1]
+                  ? `${thisEvent.address[0]}, ${thisEvent.address[1]}`
+                  : "Please check with event host"}
               </span>
             </div>
           ) : (
@@ -254,7 +257,7 @@ export default function EventCard({
                   alt="registered for event"
                 />
               </div>{" "}
-              <div>Registered</div>
+              {/* <div>Registered</div> */}
             </div>
           ) : (
             <></>
