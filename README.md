@@ -17,7 +17,7 @@ Users of the platform can:
 - Create a new event as a staff user
 - Responsive for desktop and mobile (still needs more work for tablets/ipads)
 
-## *Getting Started*
+## *Running the project locally*
 
 1. Sign up for free accounts with
    - [Firebase](https://firebase.google.com/)
