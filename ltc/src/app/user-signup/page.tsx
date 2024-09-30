@@ -67,7 +67,7 @@ export default function Page() {
   };
 
   return (
-    <div className="h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
+    <div className="min-h-screen grid overflow-hidden grid-cols-1 md:grid-cols-2">
       <div className="hidden md:block">
         <Image
           src={userSignUpPic}
@@ -77,7 +77,7 @@ export default function Page() {
       <div className="grid grid-cols-1 h-screen">
         <div className="col-auto relative">
           <div className="absolute top-0 right-0 m-4">
-            <HomeButtonLogo size={100} />
+            <HomeButtonLogo size={90} />
           </div>
         </div>
         <div className="col-auto">
@@ -85,10 +85,10 @@ export default function Page() {
             onSubmit={handleRegistration}
             className="flex flex-col justify-center mx-auto space-y-8"
           >
-            <h1 className="text-center text-2xl md:text-3xl text-slate pt-10 md:py-6">
+            <h1 className="text-center text-2xl md:text-3xl text-slate pt-10 md:py-6 mb-0">
               Create an account
             </h1>
-            <div className="md:w-1/2 text-center mx-auto text-xs text-blue m-3">
+            <div className="w-3/4 md:w-1/2 text-center mx-auto text-xs text-blue border-0 m-0">
               Password criteria: must have a minimum length of 10 characters,
               contain at least 1 lowercase letter, uppercase letter, number and
               special character.
@@ -120,7 +120,7 @@ export default function Page() {
               className="py-4 px-10 max-w-sm mx-auto bg-white rounded-xl shadow-md shadow-black"
             />
             {passwordErrorBool ? (
-              <div className="text-center text-xs text-red-600 mx-auto border-0 md:w-1/2">
+              <div className="text-center text-xs text-red-600 mx-auto border-0 w-3/4 md:w-1/2">
                 Please check your password matches & meets minimum security
                 criteria
               </div>
