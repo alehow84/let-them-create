@@ -161,10 +161,10 @@ export default function EventCard({
   }
 
   return (
-    <div className="flex items-center h-full w-full max-w-sm md:max-w-lg bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-105 transition duration-150 ease-in-out overflow-hidden">
+    <div className="flex items-center justify-center h-full w-full max-w-sm md:max-w-lg bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-105 transition duration-150 ease-in-out overflow-hidden">
       <div className="flex flex-col h-full">
         <div className="flex h-full">
-          <div className="w-3/4 ml-2 pl-2">
+          <div className="w-4/5 ml-1 mr-1 pl-2">
             <h2 className="text-sm mb-2">{thisEvent.title}</h2>
             <div className="flex text-xs pr-2">
               <ul className="text-slate-light">
