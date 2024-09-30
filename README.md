@@ -3,8 +3,8 @@
 ## *Overview*
 
 
-Let Them Create is a fictitious Arts & Crafts events hosting company for which this events platform was built. 
-This simple events platform is a web-app built with Nextjs, Typescript, Firebase Authentication, Firestore Database, Add Events API and Googles Events API (SerpApi)
+Let Them Create is the fictitious Arts & Crafts events hosting company this events platform was built for. 
+This web-app is built with Nextjs, Typescript, Firebase Authentication, Firestore Database, Add Events API and Googles Events API (SerpApi)
 The project is hosted [here](https://let-them-create.vercel.app/) on Vercel.
 
 
@@ -36,7 +36,7 @@ Users of the platform can:
          7. App ID
      - In the Authentication tab, create a new authenticated user that you will use as your staff login. Make a note of the email & uid as this will be needed for the staff collection. Also make sure you remember the password you create!
      - In the firestore database tab, create two new collections, 1 for staff, 1 for users
-     - In the staff collection, create a new document in with the following fields:
+     - In the staff collection, create a new document with the following fields:
           - displayName: *type string* LTC Staff member
           - documentID: *type string* Input the document ID of the document you have just created
           - email: *type string* Input the email address of the authenticated staff user you created earlier
