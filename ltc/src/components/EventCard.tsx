@@ -161,9 +161,9 @@ export default function EventCard({
   }
 
   return (
-    <div className="flex items-center h-full w-full bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-110 transition duration-150 ease-in-out ">
+    <div className="flex items-center h-full w-full max-w-sm md:max-w-lg bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-105 transition duration-150 ease-in-out overflow-hidden">
       <div className="flex flex-col h-full">
-        <div className="flex h-4/5">
+        <div className="flex h-full">
           <div className="w-3/4 ml-2 pl-2">
             <h2 className="text-sm mb-2">{thisEvent.title}</h2>
             <div className="flex text-xs pr-2">
@@ -175,7 +175,7 @@ export default function EventCard({
                     ? thisEvent.venue.name
                     : "Please check with event host"}
                 </li>
-                <li>Event location: {thisEvent.address[1]}</li>
+                <li>Event location: {thisEvent.address[0]}</li>
                 <li>Event Host: {thisEvent.ticket_info[0].source}</li>
                 <li className="text-blue w-fit p-1 rounded-lg hover:bg-slate hover:text-white">
                   <Link href={thisEvent.ticket_info[0].link}>Ticket info</Link>
@@ -184,7 +184,7 @@ export default function EventCard({
             </div>
           </div>
           <div className="w-20 h-20">
-            <img src={thisEvent.thumbnail} alt={thisEvent.title} rounded-full />
+            <img src={thisEvent.thumbnail} alt={thisEvent.title} />
           </div>
         </div>
         <div className="flex justify-end mr-3">
