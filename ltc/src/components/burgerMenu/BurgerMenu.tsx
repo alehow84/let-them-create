@@ -28,7 +28,7 @@ export default function BurgerMenu() {
         {isMenuOpen ? <Close /> : <Burger />}
       </div>
       {isMenuOpen ? (
-        <div className="flex justify-between pt-20 fixed flex-col text-white text-4xl pl-5 bg-black backdrop-blur-md bg-opacity-40 w-full h-full z-40">
+        <div className="flex justify-between pt-20 fixed flex-col text-white text-4xl pl-5 bg-black backdrop-blur-md bg-opacity-40 w-full h-full max-h-screen overflow-y-auto z-40">
           <Menu />
         </div>
       ) : (
