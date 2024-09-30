@@ -34,7 +34,7 @@ Users of the platform can:
          5. Storage Bucket
          6. Messaging Sender ID
          7. App ID
-     - In the Authentication tab, create a new authenticated user that you will use as your staff login. Copy the uid as this will be needed for the staff collection
+     - In the Authentication tab, create a new authenticated user that you will use as your staff login. Make a note of the email & uid as this will be needed for the staff collection. Also make sure you remember the password you create!
      - In the firestore database tab, create two new collections, 1 for staff, 1 for users
      - In the staff collection, create a new document in with the following fields:
           - displayName: *type string* LTC Staff member
