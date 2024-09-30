@@ -4,9 +4,7 @@
 
 
 Let Them Create is the fictitious Arts & Crafts events hosting company this events platform was built for. 
-This web-app is built with Nextjs, Typescript, Firebase Authentication, Firestore Database, Add Events API and Googles Events API (SerpApi)
-The project is hosted [here](https://let-them-create.vercel.app/) on Vercel.
-
+This web app is built with Nextjs, Typescript, Firebase Authentication, Firestore Database, Add Events API and Google Events API (SerpApi)
 
 Users of the platform can:
 
@@ -16,6 +14,16 @@ Users of the platform can:
 - Add an event to a chosen calendar once registered as a non-staff user
 - Create a new event as a staff user
 - Responsive for desktop and mobile (still needs more work for tablets/ipads)
+
+## *Explore the deployed site*
+
+The project is hosted [here](https://let-them-create.vercel.app/) on Vercel.
+
+- To login as staff, use email address staff@letthemcreate.co.uk, password Abcd1234?!
+- Any new events you create as a staff member will be rendered in the events page - events created by LTC staff members are all indicated by the same thumbnail image.
+- To login as an existing user, use email address frogs@hotmail.com, same password as above.
+- Create your own user login! Be sure to make a note of the password you use as there is currently no feature to remind a user of a forgotten password.
+
 
 ## *Running the project locally*
 
