@@ -32,6 +32,25 @@ export default function EventCard({
     checkEventReg(user, thisEvent);
   }, [user, thisEvent, eventRegBool]);
 
+  useEffect(() => {
+    const initializeButton = () => {
+      if (window.addeventatc) {
+        window.addeventatc.refresh();
+      }
+    };
+
+    if (eventRegBool) {
+      if (window.addeventatc) {
+        initializeButton();
+      } else {
+        const script = document.createElement("script");
+        script.src = "https://cdn.addevent.com/libs/atc/1.6.1/atc.min.js";
+        script.onload = initializeButton;
+        document.body.appendChild(script);
+      }
+    }
+  }, [eventRegBool]);
+
   type EventDate = {
     start_date: string;
     when: string;

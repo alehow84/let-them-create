@@ -5,6 +5,12 @@ import "./globals.css";
 import { AuthContextProvider } from "@/contexts/AuthContext";
 import { GlobalStateProvider } from "@/contexts/GlobalStateContext";
 
+declare global {
+  interface Window {
+    addeventatc: any;
+  }
+}
+
 const hind = Hind_Siliguri({ weight: "500", subsets: ["bengali"] });
 
 export const metadata: Metadata = {
@@ -22,7 +28,7 @@ export default function RootLayout({
       <body className={hind.className}>
         <Script
           src="https://cdn.addevent.com/libs/atc/1.6.1/atc.min.js"
-          strategy="lazyOnload"
+          strategy="beforeInteractive"
         />
         <AuthContextProvider>
           <GlobalStateProvider>{children}</GlobalStateProvider>
