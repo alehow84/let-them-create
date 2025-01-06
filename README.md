@@ -2,9 +2,13 @@
 
 ## *Overview*
 
+The brief for this project was to create a mobile app or website that allows:
 
-Let Them Create is the fictitious Arts & Crafts events hosting company this events platform was built for. 
-This web app is built with Nextjs, Typescript, Firebase Authentication, Firestore Database, Add Events API and Google Events API (SerpApi)
+1. the creation of new events by staff
+2. signing up to events by non-staff
+3. the ability to add an event to the users google calendar if registered for the event
+   
+Let Them Create is the fictitious Arts & Crafts events hosting company this events platform project was built for. 
 
 Users of the platform can:
 
@@ -14,6 +18,22 @@ Users of the platform can:
 - Add an event to a chosen calendar once registered as a non-staff user
 - Create a new event as a staff user
 - Responsive for desktop and mobile (still needs more work for tablets/ipads)
+
+## *Tech stack*
+
+This web app is built with:
+
+- *Nextjs* - for convenient features such as built in api routes (to enable creation of backend functionality without the need for an external server), file-based routing (removing the need for a third party routing library i.e. React Router) and performance optimisation features for improved end-user experience.
+
+- *Typescript* - for easy integration with Nextjs for a robust and maintainable project; typing picks up errors during development to prevent runtime bugs and helps enforce strict typing when working with Firebase Authentication, Firestore and Global State.
+
+- *Firestore Database* - chosen for easy database setup as this is a fully managed "no SQL" database. Works natively with Firebase Authentication, enabling simple user-based data access. Also works well with static and dynamic rendering in nextjs for improved user experience.
+
+- *Firebase Authentication* - easy integration with Firestore Database and supports multiple authentication methods should I wish to build upon this project at a later date. I chose simple email and password authentication, though Firebase Auth would easily enable authentication via a users Google, Facebook, Twitter or Github credentials.
+
+- *Add Events API* - well documented free API with a pre-built "Add to calendar" button with the option to integrate with multiple user calendar types. Chosen for improved user experience as not everyone likes to use google calendar for their events.
+
+- *Google Events API (SerpApi)* - free API scraping events information from the google search engine. Chosen for its clear documentation that was straight forward to integrate into the project
 
 ## *Explore the deployed site*
 
