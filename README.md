@@ -27,6 +27,8 @@ This web app is built with:
 
 - *Typescript* - for easy integration with Nextjs for a robust and maintainable project; typing picks up errors during development to prevent runtime bugs and helps enforce strict typing when working with Firebase Authentication, Firestore and Global State.
 
+- *Tailwind* - for easy styling removing the need to write custom classes. Also well supported with Nextjs; works well with nextjs auto code splitting and static generation for better performance, and easily customisable for brand themes/colours in tailwind.config.js
+
 - *Firestore Database* - chosen for easy database setup as this is a fully managed "no SQL" database. Works natively with Firebase Authentication, enabling simple user-based data access. Also works well with static and dynamic rendering in nextjs for improved user experience.
 
 - *Firebase Authentication* - easy integration with Firestore Database and supports multiple authentication methods should I wish to build upon this project at a later date. I chose simple email and password authentication, though Firebase Auth would easily enable authentication via a users Google, Facebook, Twitter or Github credentials.
