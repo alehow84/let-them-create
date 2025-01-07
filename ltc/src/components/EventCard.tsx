@@ -180,7 +180,7 @@ export default function EventCard({
   }
 
   return (
-    <div className="flex items-center justify-center h-full w-full max-w-sm md:max-w-lg bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-105 transition duration-150 ease-in-out overflow-hidden">
+    <div className="flex items-center justify-center h-full w-full max-w-sm md:max-w-lg bg-white rounded-xl m-4 p-3 text-slate shadow-xl hover:scale-105 transition duration-150 ease-in-out">
       <div className="flex flex-col h-full">
         <div className="flex h-full">
           <div className="w-4/5 ml-1 mr-1 pl-2">
@@ -210,7 +210,7 @@ export default function EventCard({
           {eventRegBool ? (
             <div
               title="Add to Calendar"
-              className="addeventatc w-auto p-2 px-4 md:w-auto"
+              className="addeventatc w-auto p-2 px-4 md:w-auto z-0 relative"
             >
               Add to Calendar
               <span className="start">
